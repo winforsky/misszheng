@@ -3,18 +3,18 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle:
-description:
+title: Hexo for misszheng
+subtitle: 岁数大了，需要回忆的东西越来越多，只想有点记忆
+description: 岁月如梭，光阴似箭
 keywords:
-author: John Doe
+author: misszheng
 language:
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
-root: /
+url: https://winforsky.github.io/misszheng 
+root: /misszheng/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 
@@ -78,4 +78,6 @@ theme: landscape
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+  repo: git@github.com:winforsky/misszheng.git
+  branch: master
