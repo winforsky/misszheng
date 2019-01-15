@@ -5,21 +5,21 @@
   
 
   
-  <title>第一次发 | Hexo</title>
+  <title>第一次发 | Hexo for misszheng</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="你想说点什么呢？">
+  <meta name="description" content="本文详细描述了如何利用一个github的项目实现：  在develop分支上编写静态blog,  在master分支上发布blog的方法。以上是摘要部分">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第一次发">
 <meta property="og:url" content="https://winforsky.github.io/misszheng/2019/01/08/第一次发/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="你想说点什么呢？">
+<meta property="og:site_name" content="Hexo for misszheng">
+<meta property="og:description" content="本文详细描述了如何利用一个github的项目实现：  在develop分支上编写静态blog,  在master分支上发布blog的方法。以上是摘要部分">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-01-08T08:06:21.804Z">
+<meta property="og:updated_time" content="2019-01-08T11:19:39.582Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第一次发">
-<meta name="twitter:description" content="你想说点什么呢？">
+<meta name="twitter:description" content="本文详细描述了如何利用一个github的项目实现：  在develop分支上编写静态blog,  在master分支上发布blog的方法。以上是摘要部分">
   
-    <link rel="alternate" href="/misszheng/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternate" href="/misszheng/atom.xml" title="Hexo for misszheng" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -38,8 +38,12 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/misszheng/" id="logo">Hexo</a>
+        <a href="/misszheng/" id="logo">Hexo for misszheng</a>
       </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/misszheng/" id="subtitle">岁数大了，需要回忆的东西越来越多，只想有点记忆</a>
+        </h2>
       
     </div>
     <div id="header-inner" class="inner">
@@ -86,12 +90,51 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>你想说点什么呢？</p>
+        <p>本文详细描述了如何利用一个github的项目实现：</p>
+<ul>
+<li>在develop分支上编写静态blog, </li>
+<li>在master分支上发布blog的方法。<br>以上是摘要部分<a id="more"></a>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2>安装hexo-cli<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="创建本地blog"><a href="#创建本地blog" class="headerlink" title="创建本地blog"></a>创建本地blog</h2><p>建立hexo的blog，同时会新建目录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init misszheng</span><br></pre></td></tr></table></figure></p>
+<p>进入blog目录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd misszheng</span><br></pre></td></tr></table></figure></p>
+<p>安装依赖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure></p>
+<p>查看hexo帮助文档<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo --help</span><br></pre></td></tr></table></figure></p>
+<p>生成hexo静态文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></table></figure></p>
+<p>本地运行hexo的blog<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo s</span><br></pre></td></tr></table></figure></p>
+<p>运行成功后，浏览器打开<code>http://localhost:4000/</code>即可看到blog</p>
+<h2 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h2><p>初始化git的版本管理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure></p>
+<p>加入git的管理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure></p>
+<p>提交git的管理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m&quot;初始化文档&quot;</span><br></pre></td></tr></table></figure></p>
+<p>本地git新增远程的github<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git@github.com:winforsky/misszheng.git</span><br></pre></td></tr></table></figure></p>
+<p>本地git切换到develop分支，后续我们都在develop分支操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b develop</span><br></pre></td></tr></table></figure></p>
+<p>新建一个文档<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;第一次发&quot;</span><br></pre></td></tr></table></figure></p>
+<p>编辑新建好的文档<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi source/_posts/第一次发.md</span><br></pre></td></tr></table></figure></p>
+<p>加入git的管理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m&quot;第一次发&quot;</span><br></pre></td></tr></table></figure></p>
+<p>推送到远端的github<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin head:develop</span><br></pre></td></tr></table></figure></p>
+<h2 id="发布到github"><a href="#发布到github" class="headerlink" title="发布到github"></a>发布到github</h2><p>安装需要的git发布组件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure></p>
+<p>编辑配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi _config.yml</span><br></pre></td></tr></table></figure></p>
+<p>配置内容如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># Site 根据需要进行修改</span><br><span class="line">title: Hexo</span><br><span class="line">subtitle:</span><br><span class="line">description:</span><br><span class="line">keywords:</span><br><span class="line">author: John Doe</span><br><span class="line">language:</span><br><span class="line">timezone:</span><br><span class="line"></span><br><span class="line"># URL</span><br><span class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</span><br><span class="line">url: https://winforsky.github.io/misszheng //注意此处，不然找不到样式、资源等</span><br><span class="line">root: /misszheng/  //注意此处</span><br><span class="line"></span><br><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: git@github.com:winforsky/misszheng.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
+<p>清理本地生成的文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br></pre></td></tr></table></figure></p>
+<p>发布到github时，会自动清理掉远端git上master分支的内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure></p>
+<p><strong>发布完成之后建议清理掉本地的数据再同步到远端</strong></p>
+<p>清理本地生成的文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br></pre></td></tr></table></figure></p>
+<p>加入git的管理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line">git add .</span><br><span class="line">git commit -m&apos;更新配置信息&apos;</span><br></pre></td></tr></table></figure></p>
+<p>同步到远端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin head:develop</span><br></pre></td></tr></table></figure></p>
+<p><strong>通过上面的操作，你已经实现了在develop分支上写文字并进行git管理，在master分支上发布</strong></p>
+<h2 id="发布带图片的blog"><a href="#发布带图片的blog" class="headerlink" title="发布带图片的blog"></a>发布带图片的blog</h2><p>安装需要的插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure></p>
+<p>修改_config.yml文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_asset_folder: true</span><br></pre></td></tr></table></figure></p>
+<p>插入logo图片<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![logo](logo.jpg)</span><br></pre></td></tr></table></figure></p>
+<p>或 注意此处的xxxx是与<code>hexo new xxxx</code>时的一致<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![你想输入的替代文字](xxxx/图片名.jpg)</span><br></pre></td></tr></table></figure></p>
+<h2 id="生成sitemap-amp-rss"><a href="#生成sitemap-amp-rss" class="headerlink" title="生成sitemap &amp; rss"></a>生成sitemap &amp; rss</h2><p>安装需要的插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-feed --save </span><br><span class="line">npm install hexo-generator-sitemap --save</span><br></pre></td></tr></table></figure></p>
+<p>之后重启博客，访问/atom.xml和/sitemap.xml，会发现已经生成了。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>你想说点什么呢？</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://winforsky.github.io/misszheng/2019/01/08/第一次发/" data-id="cjqnittn5000107q2uyv5j6qf" class="article-share-link">Share</a>
+      <a data-url="https://winforsky.github.io/misszheng/2019/01/08/第一次发/" data-id="cjqxj5fam0000c0q2kskzqe3i" class="article-share-link">Share</a>
       
       
     </footer>
@@ -99,6 +142,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/misszheng/2019/01/14/视频录制/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          视频录制
+        
+      </div>
+    </a>
   
   
     <a href="/misszheng/2019/01/08/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
@@ -140,6 +192,10 @@
       <ul>
         
           <li>
+            <a href="/misszheng/2019/01/14/视频录制/">视频录制</a>
+          </li>
+        
+          <li>
             <a href="/misszheng/2019/01/08/第一次发/">第一次发</a>
           </li>
         
@@ -159,7 +215,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2019 John Doe<br>
+      &copy; 2019 misszheng<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

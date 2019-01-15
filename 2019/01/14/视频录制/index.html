@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>视频录制 | Hexo for misszheng</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="私有权限私有权限要求添加以下描述：123NSCameraUsageDescriptionNSMicrophoneUsageDescriptionNSPhotoLibraryAddUsageDescription 如果没有添加会crash。 录制视频录制视频可以有三种方法：1231)UIImagePickerController2)AVCaptureSession + AVCaptureMovieF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="视频录制">
+<meta property="og:url" content="https://winforsky.github.io/misszheng/2019/01/14/视频录制/index.html">
+<meta property="og:site_name" content="Hexo for misszheng">
+<meta property="og:description" content="私有权限私有权限要求添加以下描述：123NSCameraUsageDescriptionNSMicrophoneUsageDescriptionNSPhotoLibraryAddUsageDescription 如果没有添加会crash。 录制视频录制视频可以有三种方法：1231)UIImagePickerController2)AVCaptureSession + AVCaptureMovieF">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://objccn.io/images/issues/issue-23/AVCaptureSession.svg">
+<meta property="og:image" content="https://objccn.io/images/issues/issue-23/AVAssetWriter.svg">
+<meta property="og:updated_time" content="2019-01-15T09:02:05.307Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="视频录制">
+<meta name="twitter:description" content="私有权限私有权限要求添加以下描述：123NSCameraUsageDescriptionNSMicrophoneUsageDescriptionNSPhotoLibraryAddUsageDescription 如果没有添加会crash。 录制视频录制视频可以有三种方法：1231)UIImagePickerController2)AVCaptureSession + AVCaptureMovieF">
+<meta name="twitter:image" content="https://objccn.io/images/issues/issue-23/AVCaptureSession.svg">
+  
+    <link rel="alternate" href="/misszheng/atom.xml" title="Hexo for misszheng" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/misszheng/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/misszheng/" id="logo">Hexo for misszheng</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/misszheng/" id="subtitle">岁数大了，需要回忆的东西越来越多，只想有点记忆</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/misszheng/">Home</a>
+        
+          <a class="main-nav-link" href="/misszheng/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/misszheng/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://winforsky.github.io/misszheng"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-视频录制" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/misszheng/2019/01/14/视频录制/" class="article-date">
+  <time datetime="2019-01-14T07:13:54.000Z" itemprop="datePublished">2019-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      视频录制
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="私有权限"><a href="#私有权限" class="headerlink" title="私有权限"></a>私有权限</h2><p>私有权限要求添加以下描述：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NSCameraUsageDescription</span><br><span class="line">NSMicrophoneUsageDescription</span><br><span class="line">NSPhotoLibraryAddUsageDescription</span><br></pre></td></tr></table></figure></p>
+<p>如果没有添加会crash。</p>
+<h2 id="录制视频"><a href="#录制视频" class="headerlink" title="录制视频"></a>录制视频</h2><p>录制视频可以有三种方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1)UIImagePickerController</span><br><span class="line">2)AVCaptureSession + AVCaptureMovieFileOutput</span><br><span class="line">3)AVCaptureSession + AVAssetWriter</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h3 id="UIImagePickerController"><a href="#UIImagePickerController" class="headerlink" title="UIImagePickerController"></a>UIImagePickerController</h3><ul>
+<li>优点：使用起来最简单的</li>
+<li>缺点：可定制化也是最低的，只能设置一些简单的参数来实现基本的视频录制的效果。</li>
+<li>如果你想自定义录制界面的UI，那这个简单方法可能就不大适合。</li>
+<li>自定义 UI的实现方法<br>隐藏默认控件，然后创建带有控件的自定义视图，并覆盖在相机预览图层上面<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UIView *cameraOverlay = …</span><br><span class="line">picker.showsCameraControls = NO;</span><br><span class="line">picker.cameraOverlayView = cameraOverlay;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>注意：需要将覆盖层上的控件关联上 UIImagePickerController 的控制方法 (比如，startVideoCapture 和 stopVideoCapture)。</p>
+<h3 id="2-AVCaptureSession-AVCaptureMovieFileOutput"><a href="#2-AVCaptureSession-AVCaptureMovieFileOutput" class="headerlink" title="2)AVCaptureSession + AVCaptureMovieFileOutput"></a>2)AVCaptureSession + AVCaptureMovieFileOutput</h3><h3 id="3-AVCaptureSession-AVAssetWriter"><a href="#3-AVCaptureSession-AVAssetWriter" class="headerlink" title="3)AVCaptureSession + AVAssetWriter"></a>3)AVCaptureSession + AVAssetWriter</h3><ul>
+<li>优点：可定制化程度高</li>
+<li>缺点：两种方式都要使用AVFoundation框架，可配置项比较多，操作稍微复制点。</li>
+<li>主要类：<br>AVCaptureSession，负责调配输入和输出，算是总的管理，使用一个 capture session，需要先实例化，添加输入与输出，接着启动从输入到输出之间的数据流</li>
+</ul>
+<p>AVCaptureDeviceInput，定制视频的输入</p>
+<p>AVCaptureMovieFileOutput， 捕获的视频文件输出</p>
+<p>AVCaptureVideoDataOutput， 捕获的视频raw data输出</p>
+<p>AVCaptureAudioDataOutput， 捕获的音频raw data输出</p>
+<p>AVAssetWriter，负责输出保存为视频</p>
+<ul>
+<li><p>视频输入：</p>
+<p><img src="https://objccn.io/images/issues/issue-23/AVCaptureSession.svg" alt="参见图片"></p>
+</li>
+<li><p>视频输出：</p>
+<p><img src="https://objccn.io/images/issues/issue-23/AVAssetWriter.svg" alt="参见图片"></p>
+</li>
+<li><p>更细节的地方参见：<br><a href="https://objccn.io/issue-23-1/" target="_blank" rel="noopener">在 iOS 上捕获视频</a></p>
+</li>
+</ul>
+<h3 id="使用注意事项"><a href="#使用注意事项" class="headerlink" title="使用注意事项"></a>使用注意事项</h3><ul>
+<li><p>权限验证</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(AVAuthorizationStatus)authorizationStatusForMediaType:(AVMediaType)mediaType;</span><br></pre></td></tr></table></figure>
+<p>  以下摘自iOS的开发文档</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Recording audio or video always requires explicit permission from the user. The first time you create any AVCaptureDeviceInput objects for a media type that requires permission, the system automatically displays an alert to request recording permission.</span><br><span class="line">录制音频或视频时需求得到用户的允许确认。当你第一次创建AVCaptureDeviceInput相关的对象时，系统会自动弹窗请求权限的确认。</span><br><span class="line"></span><br><span class="line">After the user grants recording permission, the system remembers the choice for future use in the same app, but the user can change this choice at any time using the Settings app. If the user has denied your app recoding permission or has not yet responded to the permission prompt, any audio recordings will contain only silence and any video recordings will contain only black frames.</span><br><span class="line">当用户授权之后，系统会自动记住用户的选择，但是用户可以在任何时候到设置中进行修改。如果用户拒绝或没有响应权限的许可时，音视频录制时没有声音，且只有黑色的画面。</span><br><span class="line"></span><br><span class="line">If this method returns AVAuthorizationStatusNotDetermined, you can call requestAccessForMediaType:completionHandler: to prompt the user for recording permission.</span><br><span class="line">如果这个方法返回`AVAuthorizationStatusNotDetermined`时，你可以使用`requestAccessForMediaType:completionHandler: `再次获取用户的授权</span><br><span class="line"></span><br><span class="line">Calling this method with any media type other than AVMediaTypeVideo or AVMediaTypeAudio raises an exception.</span><br><span class="line">使用这个方法时的参数只能是`AVMediaTypeVideo` 或 `AVMediaTypeAudio`，其他会导致异常。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查设备是否支持相机录制</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if ([UIImagePickerController</span><br><span class="line">    isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) &#123;</span><br><span class="line">    NSArray *availableMediaTypes = [UIImagePickerController</span><br><span class="line">    availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];</span><br><span class="line">    if ([availableMediaTypes containsObject:(NSString *)kUTTypeMovie]) &#123;</span><br><span class="line">        // 支持视频录制</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>确认想要设置的相机是可用</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">UIImagePickerController *camera = …</span><br><span class="line">if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront]) &#123;</span><br><span class="line">    [camera setCameraDevice:UIImagePickerControllerCameraDeviceFront];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>实时预览<br>使用 AVFoundation 来做图像捕获时必须提供一套自定义的用户界面，其中一个关键的相机交互组件是实时预览图。</p>
+<p>  最简单的实现方式是通过把 AVCaptureVideoPreviewLayer 对象作为一个 sublayer 加到相机图层上去：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">AVCaptureSession *captureSession = ...;</span><br><span class="line">AVCaptureVideoPreviewLayer *previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:captureSession];</span><br><span class="line">UIView *cameraView = ...;</span><br><span class="line">previewLayer.frame = cameraView.bounds;</span><br><span class="line">[cameraView.layer addSublayer:previewLayer];</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="更多"><a href="#更多" class="headerlink" title="更多"></a>更多</h2><ul>
+<li><a href="https://blog.csdn.net/leixiaohua1020/article/details/47071547" target="_blank" rel="noopener">最简单的基于FFmpeg的移动端例子：IOS HelloWorld</a></li>
+<li><a href="https://blog.csdn.net/leixiaohua1020/article/details/50534369" target="_blank" rel="noopener">视音频数据处理入门：H.264视频码流解析</a></li>
+<li><a href="https://github.com/Damonvvong/DevNotes/blob/master/Notes/videorecoder.md" target="_blank" rel="noopener">仿微信小视屏 iOS 技术路线实践笔记</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://winforsky.github.io/misszheng/2019/01/14/视频录制/" data-id="cjqxj5fau0002c0q22ir71wd3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/misszheng/2019/01/08/第一次发/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第一次发</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/misszheng/archives/2019/01/">January 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/misszheng/2019/01/14/视频录制/">视频录制</a>
+          </li>
+        
+          <li>
+            <a href="/misszheng/2019/01/08/第一次发/">第一次发</a>
+          </li>
+        
+          <li>
+            <a href="/misszheng/2019/01/08/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 misszheng<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/misszheng/" class="mobile-nav-link">Home</a>
+  
+    <a href="/misszheng/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/misszheng/fancybox/jquery.fancybox.css">
+  <script src="/misszheng/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/misszheng/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
