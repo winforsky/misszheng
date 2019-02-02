@@ -168,10 +168,6 @@ db.collection.updateMany(
 )
 ```
 
-* 
-
-```
-```
 ### 删除 Delete by deleteOne\deleteMany
 ```
 db.collection.deleteOne(
@@ -182,6 +178,7 @@ db.collection.deleteOne(
    }
 )
 ```
+
 ```
 db.collection.deleteMany(
    <filter>,
@@ -217,6 +214,7 @@ db.collection.deleteMany(
 |`$type`| 根据元素值的类型来筛选|值类型参见最后的附录|
 
 ### 逻辑操作符
+
 |Type|	Number|	Notes|
 | ------ | ------ | ------ |
 |`$or`| 等于||
@@ -234,6 +232,7 @@ db.collection.deleteMany(
 
 ### 数组操作符
 **操作对象必须时数组**
+
 |Type|	Number|	Notes|
 | ------ | ------ | ------ |
 |`$all`|数组内的元素必须全包含才匹配|{sections: {$all:[ "AG1", "MD1", "OA1"]}}}
@@ -241,6 +240,7 @@ db.collection.deleteMany(
 |`$elemmatch`|数组内的元素为object时，object必须满足匹配条件时才匹配|{sections: {$elemmatch:{product: "xyz", score: 8}}}|
 
 ### 表达式操作符
+
 |Type|	Number|	Notes|
 | ------ | ------ | ------ |
 |`$expr`|允许用户使用查询条件表达式来匹配|`{ $expr: { $gt: [ "$spent" , "$budget" ] } }`  spent字段的数据>budget字段的数据|
