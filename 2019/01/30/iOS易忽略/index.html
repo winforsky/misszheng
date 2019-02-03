@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>iOS易忽略 | Hexo for misszheng</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="以上是摘要部分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS易忽略">
+<meta property="og:url" content="https://winforsky.github.io/misszheng/2019/01/30/iOS易忽略/index.html">
+<meta property="og:site_name" content="Hexo for misszheng">
+<meta property="og:description" content="以上是摘要部分">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-02-03T11:14:34.561Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS易忽略">
+<meta name="twitter:description" content="以上是摘要部分">
+  
+    <link rel="alternate" href="/misszheng/atom.xml" title="Hexo for misszheng" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/misszheng/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/misszheng/" id="logo">Hexo for misszheng</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/misszheng/" id="subtitle">岁数大了，需要回忆的东西越来越多，只想有点记忆</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/misszheng/">Home</a>
+        
+          <a class="main-nav-link" href="/misszheng/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/misszheng/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://winforsky.github.io/misszheng"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-iOS易忽略" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/misszheng/2019/01/30/iOS易忽略/" class="article-date">
+  <time datetime="2019-01-30T01:51:41.000Z" itemprop="datePublished">2019-01-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS易忽略
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>以上是摘要部分<br><a id="more"></a></p>
+<h1 id="weak的使用"><a href="#weak的使用" class="headerlink" title="weak的使用"></a>weak的使用</h1><ul>
+<li>weak 简单解释为 弱引用，在对象被释放后自动置为nil，避免内存引用错误导致crash。</li>
+<li>weak 常用于在delegate、block、NSTimer中用于避免循环引用带来的内存泄露。</li>
+<li><p>解决循环引用的另一个方法是将可能会导致循环引用的对象作为参数传入。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编程语言是工具，语言特性只是工具的特性，工具怎么用在于使用者。weak 关键字的方便之处绝不局限于避免循环引用，适当脑洞，可以在其他场景下带来一些有趣的应用。</p>
+</li>
+</ul>
+<h2 id="单例"><a href="#单例" class="headerlink" title="单例"></a>单例</h2><p>什么时候会释放不需要了的单例？</p>
+<p>大部分场景下遇到被创建的单例会一直存在，不会被显式的释放，这有时候会造成内存浪费。</p>
+<p>可以使用<a href="https://www.ios-blog.co.uk/tutorials/objective-c-ios-weak-singletons/" target="_blank" rel="noopener">weak singleton</a>来解决，代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">+ (id)sharedInstance</span><br><span class="line">&#123;</span><br><span class="line">    static __weak ASingletonClass *instance;</span><br><span class="line">    ASingletonClass *strongInstance = instance;</span><br><span class="line">    @synchronized(self) &#123;</span><br><span class="line">        if (strongInstance == nil) &#123;</span><br><span class="line">            strongInstance = [[[self class] alloc] init];</span><br><span class="line">            instance = strongInstance;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return strongInstance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>weak singleton 有意思的特性是：在所有使用该单例的对象都释放后，单例对象本身也会自己释放。</li>
+</ul>
+<h2 id="associated-object"><a href="#associated-object" class="headerlink" title="associated object"></a>associated object</h2><p>使用 associated object 的时候，有一些细节需要额外考虑。比如 property 是强引用还是弱引用，这个选择题取决于代码结构的设计。如果是强引用，则对象的生命周期跟随所依附的对象，XXController dealloc 的时候，DumpViewObject 也随之 dealloc。如果是弱引用，则说明 DumpViewObject 对象的创建会销毁由其他对象负责，一般是为了避免存在循环引用，或者由于 DumpViewObject 的职责多于所依附对象的需要，DumpViewObject 有更多的状态需要维护处理。</p>
+<p>associated object 本身并不支持添加具备 weak 特性的 property，但我们可以通过一个小技巧来完成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (void)setContext:(CDDContext*)object &#123;</span><br><span class="line">    id __weak weakObject = object;</span><br><span class="line">    id (^block)() = ^&#123; return weakObject; &#125;;</span><br><span class="line">    objc_setAssociatedObject(self, @selector(context), block, OBJC_ASSOCIATION_COPY);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (CDDContext*)context &#123;</span><br><span class="line">    id (^block)() = objc_getAssociatedObject(self, @selector(context));</span><br><span class="line">    id curContext = (block ? block() : nil);</span><br><span class="line">    return curContext;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>添加了一个中间角色 block，再辅以 weak 关键字就实现了具备 weak 属性的 associated object。这种做法也印证了软件工程里一句名言「We can solve any problem by introducing an extra level of indirection」。</p>
+<p>类似的用法还有不少，比如 NSArray，NSDictionary 中的元素引用都是强引用，但我们可以通过添加一个中间对象 WeakContainer，WeakContainer 中再通过 weak property 指向目标元素，这样就能简单的实现一个元素弱引用的集合类。</p>
+<p>弱引用容器是指基于NSArray, NSDictionary, NSSet的容器类, 该容器与这些类最大的区别在于, 将对象放入容器中并不会改变对象的引用计数器, 同时容器是以一个弱引用指针指向这个对象, 当对象销毁时自动从容器中删除, 无需额外的操作.</p>
+<p>目前常用的弱引用容器的实现方式是block封装解封</p>
+<p>利用block封装一个对象, 且block中对象的持有操作是一个弱引用指针. 而后将block当做对象放入容器中. 容器直接持有block, 而不直接持有对象. 取对象时解包block即可得到对应对象.</p>
+<p>第一步 封装与解封<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">typedef id (^WeakReference)(void);</span><br><span class="line"></span><br><span class="line">WeakReference makeWeakReference(id object) &#123;</span><br><span class="line">    __weak id weakref = object;</span><br><span class="line">    return ^&#123;</span><br><span class="line">        return weakref;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">id weakReferenceNonretainedObjectValue(WeakReference ref) &#123;</span><br><span class="line">    return ref ? ref() : nil;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>第二步 改造原容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (void)weak_setObject:(id)anObject forKey:(NSString *)aKey &#123;</span><br><span class="line">    [self setObject:makeWeakReference(anObject) forKey:aKey];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)weak_setObjectWithDictionary:(NSDictionary *)dic &#123;</span><br><span class="line">    for (NSString *key in dic.allKeys) &#123;</span><br><span class="line">        [self setObject:makeWeakReference(dic[key]) forKey:key];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (id)weak_getObjectForKey:(NSString *)key &#123;</span><br><span class="line">    return weakReferenceNonretainedObjectValue(self[key]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样就实现了一个弱引用字典, 之后用弱引用字典即可.</p>
+<h2 id="throttle机制"><a href="#throttle机制" class="headerlink" title="throttle机制"></a><a href="http://mrpeak.cn/blog/tableview-danger/" target="_blank" rel="noopener">throttle机制</a></h2><p>throttle也算是个生僻的单词，至少在口语中毕竟少用到，先来看看词义：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a device controlling the flow of fuel or power to an engine.</span><br></pre></td></tr></table></figure></p>
+<p>中文翻译是节流器，一种控制流量的设备。对应到我们计算机世界，可以理解成，一种控制数据或者事件流量大小的机制。这么说可能还是有些抽象，再来看看一些具体的技术场景加深理解。</p>
+<p>控制刷新事件的产生频率，建立一个Queue以一定的时间间隔来调用reloadData。事实上这是一种很常见的界面优化机制，对于一些刷新频率可能很高的列表界面，比如微信的会话列表界面，如果很长时间没有登录了，打开App时，堆积了很久的离线消息会在短时间内，导致大量的界面刷新请求，频繁的调用reloadData还会造成界面的卡顿，所以此时建立一个FIFO的Queue，以一定的间隔来刷新界面就很有必要了，这种做法代码量会多一些，但体验更好更安全。</p>
+<p>场景：Event Frequency Control<br>不知道大家在写UI的时候，有没有遇到过用户快速连续点击UIButton，产生多次Touch事件回调的场景。</p>
+<p>以前机器还没那么快的时候，我在用一些App的时候，时不时会遇到偶尔卡顿，多次点击一个Button，重复Push同一个Controller。</p>
+<p>有些工程师会在Button的点击事件里记录一个timestamp，然后判断每次点击的时间间隔，间隔过短就忽略，这也不失为一种解决办法。</p>
+<p>再后来学习RxSwift的时候，看到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">button.rx_tap</span><br><span class="line">   .throttle(0.5, MainScheduler.instance)</span><br><span class="line">   .subscribeNext &#123; _ in </span><br><span class="line">      print(&quot;Hello World&quot;)</span><br><span class="line">   &#125;</span><br><span class="line">   .addDisposableTo(disposeBag)</span><br></pre></td></tr></table></figure></p>
+<p>终于有了优雅的书写方式。发现没有，throttle又出现了，这里throttle控制的是什么呢？</p>
+<p>不是disk读写，也不是network buffer，而是事件，把事件本身抽象成了一种Data，控制这种数据的流量或者产生频率，就解决了上面我们所说重复点击按钮的问题。</p>
+<h2 id="DISPATCH-QUEUE-PRIORITY-BACKGROUND"><a href="#DISPATCH-QUEUE-PRIORITY-BACKGROUND" class="headerlink" title="DISPATCH_QUEUE_PRIORITY_BACKGROUND"></a>DISPATCH_QUEUE_PRIORITY_BACKGROUND</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@constant DISPATCH_QUEUE_PRIORITY_BACKGROUND</span><br><span class="line">Items dispatched to the queue will run at background priority, i.e. the queue</span><br><span class="line">will be scheduled for execution after all higher priority queues have been</span><br><span class="line">scheduled and the system will run items on this queue on a thread with</span><br><span class="line">background status as per setpriority(2) (i.e. disk I/O is throttled and the</span><br><span class="line">thread&apos;s scheduling priority is set to lowest value).</span><br></pre></td></tr></table></figure>
+<p>那Disk I/O Throttle做什么用呢？按照上面这段描述，Disk I/O会impact system performance。</p>
+<ul>
+<li>简而言之，对于重度磁盘I/O依赖的后台任务，如果对实时性要求不高，放到DISPATCH_QUEUE_PRIORITY_BACKGROUND Queue中是个好习惯，对系统更友好。<br>实际上I/O Throttle还分为好几种，有Disk I/O Throttle，Memory I/O Throttle，和Network I/O Throttle。语义类似只不过场景不同。</li>
+</ul>
+<blockquote>
+<p> Network Throttle<br>知名的第三方网络框架都有对Newtork Throttle的支持，你可能会好奇，我们为什么要对自己发出的网络请求做流量控制，难道不应该尽可能最大限度的利用带宽吗？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> Throttles request bandwidth by limiting the packet size and adding a delay for each chunk read from the upload stream.</span><br><span class="line"></span><br><span class="line"> When uploading over a 3G or EDGE connection, requests may fail with &quot;request body stream exhausted&quot;. Setting a maximum packet size and delay according to the recommended values (`kAFUploadStream3GSuggestedPacketSize` and `kAFUploadStream3GSuggestedDelay`) lowers the risk of the input stream exceeding its allocated bandwidth. Unfortunately, there is no definite way to distinguish between a 3G, EDGE, or LTE connection over `NSURLConnection`. As such, it is not recommended that you throttle bandwidth based solely on network reachability. Instead, you should consider checking for the &quot;request body stream exhausted&quot; in a failure block, and then retrying the request with throttled bandwidth.</span><br><span class="line"></span><br><span class="line"> @param numberOfBytes Maximum packet size, in number of bytes. The default packet size for an input stream is 16kb.</span><br><span class="line"> @param delay Duration of delay each time a packet is read. By default, no delay is set.</span><br><span class="line"> */ </span><br><span class="line"> - (void)throttleBandwidthWithPacketSize:(NSUInteger)numberOfBytes</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>科普一点TCP协议相关的知识：</p>
+<blockquote>
+<p>我们通过HTTP请求发送数据的时候，实际上数据是以Packet的形式存在于一个Send Buffer中的，应用层平时感知不到这个Buffer的存在。<br>TCP提供可靠的传输，在弱网环境下，一个Packet一次传输失败的概率会升高，即使一次失败，TCP并不会马上认为请求失败了，而是会继续重试一段时间，同时TCP还保证Packet的有序传输，意味着前面的Packet如果不被ack，后面的Packet就会继续等待，<br>如果我们一次往Send Buffer中写入大量的数据，那么在弱网环境下，排在后面的Packet失败的概率会变高，也就意味着我们HTTP请求失败的几率会变大。<br>大部分时候在应用层写代码的时候，估计不少同学都意识不到Newtork Throttle这种机制的存在。<br>在弱网环境下（丢包率高，带宽低，延迟高）一些HTTP请求(比如上传图片或者日志文件)失败率会激增，有些朋友会觉得这个我们也没办法，毕竟网络辣么差。</p>
+</blockquote>
+<p>其实，作为有追求的工程师，我们可以多做一点点，而且弱网下请求的成功率其实是个很值得深入研究的方向。</p>
+<p>针对弱网场景，我们可以启用Newtork Throttle机制，减小我们一次往Send Buffer中写入的数据量，或者延迟某些请求的发送时间，这样所有的请求在弱网环境下，都能「耐心一点，多等一会」，请求成功率自然也就适当提高啦。</p>
+<p>Network Throttle体现了一句至理名言「慢即是快」。</p>
+<h2 id="Wireshark抓包iOS入门教程"><a href="#Wireshark抓包iOS入门教程" class="headerlink" title="Wireshark抓包iOS入门教程"></a>Wireshark抓包iOS入门教程</h2><p><a href="http://mrpeak.cn/blog/wireshark/" target="_blank" rel="noopener">Wireshark抓包iOS入门教程</a></p>
+<h2 id="网络请求在Controller退出后是否应该被取消？"><a href="#网络请求在Controller退出后是否应该被取消？" class="headerlink" title="网络请求在Controller退出后是否应该被取消？"></a>网络请求在Controller退出后是否应该被取消？</h2><p>一个编写iOS代码的经典场景：</p>
+<blockquote>
+<p>用户进入某个Controller，发起Http网络请求从Server获取数据，在数据返回之前用户退出了Controller。此时是否需要Cancel之前发出的网络请求呢？</p>
+</blockquote>
+<p>如果请求的数据只在当前Controller产生内容，结论当然是需要Cancel。</p>
+<p>如果不Cancel，请求完成之后通过回调找到delegate，如果是weak引用，Controller被释放，delegate变为nil，业务流程被中断，代码还算安全。但是会的的确确浪费一些用户流量。养成好习惯，自己产生的垃圾自己清理哦。</p>
+<h2 id="UIImage-imageNamed-NSString-name导致内存问题"><a href="#UIImage-imageNamed-NSString-name导致内存问题" class="headerlink" title="+ (UIImage )imageNamed:(NSString )name导致内存问题"></a>+ (UIImage <em>)imageNamed:(NSString </em>)name导致内存问题</h2><p>方法在application bundle的顶层文件夹寻找名字的图象 , 如果找到图片， 系统缓存图象。图片内容被加载到系统内存中，使用时直接引用到系统内存。 </p>
+<p>所以当图片比较大时，程序使用的内存会迅速上升导致内存警告并退出。 </p>
+<p>特别在使用Interface Builder建立界面时，如果直接拖动UIImageView 并设置image的图片名称。InterfaceBuilder 正是通过UIImage 类的imageName方法加载图片。图片被缓存，导致内存使用较大，且无法释放，即使release掉 UIImageView也无济于事。 </p>
+<ul>
+<li>生命周期与APP的生命周期同步？</li>
+<li>如果没有使用局部释放池，并且在主线程，则是当前主线程Runloop一次循环结束前释放？</li>
+<li><p>the class holds onto cached objects only while the object exists. If all strong references to the image are subsequently removed, the object may be quietly removed from the cache. Thus, if you plan to hold onto a returned image object, you must maintain a strong reference to it like you would any Cocoa object.</p>
+</li>
+<li><p>像[[UIImageView alloc] init]还有一些其他的 init 方法，返回的都是 autorelease 对象。而 autorelease 不能保证什么时候释放，所以不一定在引用计数为 0 就立即释放，只能保证在 autoreleasepool 结尾的时候释放。像 UIImage 还有 NSData 这种，大部分情况应该是延迟释放的，可以理解为到 autoreleasepool 结束的时候才释放。</p>
+</li>
+</ul>
+<h2 id="Dispatch-Semaphore-信号量"><a href="#Dispatch-Semaphore-信号量" class="headerlink" title="Dispatch Semaphore 信号量"></a>Dispatch Semaphore 信号量</h2><ul>
+<li>Dispatch Semaphore 是持有计数的信号量。</li>
+<li>dispatch_semaphore_create 创建一个信号量，并通过参数指定信号量持有的计数。</li>
+<li>dispatch_semaphore_signal 将信号量持有计数增加 1。</li>
+<li>dispatch_semaphore_wait 函数会判断信号量持有计数的值，如果计数为 1 或大于 1，函数会直接返回。如果计数为 0，函数会阻塞当前线程并一直处于等待状态不返回，直到信号量计数变为大于等于 1，dispatch_semaphore_wait 才会停止等待并返回。</li>
+<li>dispatch_semaphore_wait 支持设置一个等待时间，如果到了这个时间，即使信号量计数不是大于等于 1，函数也会停止等待并返回。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//让函数阻塞地执行异步任务</span><br><span class="line">- (void)dispatchSemaphoreDemo &#123;</span><br><span class="line">    dispatch_queue_t queue = dispatch_queue_create(&quot;com.example.GCD.dispatchSemaphore&quot;, NULL);    </span><br><span class="line">    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);    //生成数量为0的信号量，让后面的wait进入等待状态</span><br><span class="line">    dispatch_async(queue, ^&#123;</span><br><span class="line">            NSLog(@&quot;here 1&quot;);        </span><br><span class="line">        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), queue, ^&#123;</span><br><span class="line">            dispatch_semaphore_signal(semaphore);//将信号量的计数加1，系统会自动通知wait说信号量发生了变化</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);    </span><br><span class="line">    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);//系统等待信号量不为0时才能继续下一步    </span><br><span class="line">    NSLog(@&quot;here 2&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//细粒度地控制在同一时间一个操作可以被并发得执行次数</span><br><span class="line">dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</span><br><span class="line">dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);//生成数量为1的信号量，让后面的wait不是进入等待状态，而是继续下一步</span><br><span class="line">NSMutableArray *array = [[NSMutableArray alloc] init];</span><br><span class="line">for (int i = 0; i &lt; 10000; ++i) &#123;</span><br><span class="line">    dispatch_async(queue, ^&#123;</span><br><span class="line">        //如果不进行这样的操作，代码会大概率发生崩溃，因为并发的执行很容易发生内存错误。</span><br><span class="line">        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);//系统等待信号量不为0时才能继续下一步，因为初始化时数量为1，所以第一次不会进入等待，而是继续执行  </span><br><span class="line">        [array addObject:@(i)];</span><br><span class="line">        dispatch_semaphore_signal(semaphore);//将信号量的计数加1，系统会自动通知wait说信号量发生了变化</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>引用来源：<a href="http://liuduo.me/2018/02/17/gcd-maybe-you-dont-know/" target="_blank" rel="noopener">GCD 中那些你可能不熟悉的知识</a></p>
+<h2 id="安全知识"><a href="#安全知识" class="headerlink" title="安全知识"></a>安全知识</h2><p>很多App都有类似的问题，在安全方面投入太少。</p>
+<ul>
+<li>客户端没有做ssl pinning，所以可以通过中间人攻击分析请求。</li>
+<li>Server端也没有针对replay attack做任何防范。</li>
+<li>做App还是要多注意下安全方面的东西，即使上了https，也要做多做一层加密保护。安全方面的工作，做得再多也为过。</li>
+</ul>
+<h2 id="iOS单例模式-and-NSUserDefaults"><a href="#iOS单例模式-and-NSUserDefaults" class="headerlink" title="iOS单例模式 and NSUserDefaults"></a>iOS单例模式 and NSUserDefaults</h2><ul>
+<li>单例模式虽然能存入任何类型的对象，但是它会随着程序的挂起而消亡。</li>
+<li>而NSUserDefaults在读取自定义类型时有些繁琐，降低编码效率和可读性，好处是程序下次启动依然能读取到上次的状态。</li>
+<li><p>在实际应用中采取了二者结合的模式：让单例模式的类实现协议，程序第一次启动的时候通过NSData做载体读取单例类的实例，并存入单例，程序运行中一直对单例做存储操作，当程序快要进入到后台挂起的时候，通过NSData做载体存入NSUserDefaults，一举两得。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">//SNShops.h</span><br><span class="line"></span><br><span class="line">@interface SNShops : NSObject&lt;NSCoding&gt;</span><br><span class="line"></span><br><span class="line">@property (nonatomic,strong) NSString* sid;</span><br><span class="line">@property (nonatomic,strong) NSString* name;</span><br><span class="line"></span><br><span class="line">- (id) initWithCoder: (NSCoder *)coder;</span><br><span class="line">- (void) encodeWithCoder: (NSCoder *)coder;</span><br><span class="line"></span><br><span class="line">//SNShops.m</span><br><span class="line">@implementation SNShops</span><br><span class="line">- (id) initWithCoder: (NSCoder *)coder</span><br><span class="line">&#123;</span><br><span class="line">    if (self = [super init])</span><br><span class="line">    &#123;</span><br><span class="line">        self.sid = [coder decodeObjectForKey:@&quot;sid&quot;];</span><br><span class="line">        self.name = [coder decodeObjectForKey:@&quot;name&quot;];</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line">- (void) encodeWithCoder: (NSCoder *)coder</span><br><span class="line">&#123;</span><br><span class="line">    [coder encodeObject:self.sid forKey:@&quot;sid&quot;];</span><br><span class="line">    [coder encodeObject:self.name forKey:@&quot;name&quot;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>存入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];</span><br><span class="line">SNShops *shop = [[SNShops alloc]init];</span><br><span class="line">NSData *shopData = [NSKeyedArchiver archivedDataWithRootObject:shop];</span><br><span class="line">[standardDefaults setObject:shopData forKey:@&quot;myshop&quot;];</span><br><span class="line">[standardDefaults synchronize];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>读取</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSData *newshopData = [standardDefaults objectForKey:&quot;myshop&quot;];</span><br><span class="line">SNShops *newshop = [NSKeyedUnarchiver unarchiveObjectWithData:newshopData];</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="普通人如何实现top5"><a href="#普通人如何实现top5" class="headerlink" title="普通人如何实现top5"></a>普通人如何实现top5</h2><blockquote>
+<p>呆伯特漫画的作者亚当斯（ Scott Adams），有一次谈到自己的成功秘诀。</p>
+</blockquote>
+<blockquote>
+<p>他的经历其实很普通。小时候喜欢画画，画得还可以，但远远不算优秀。长大以后，在一家公司当经理，管理企业，也是业绩平平。无论是选择当画家，或者继续当公司经理，也许都能够干下去，但应该都不会很成功。于是，他灵机一动，把自己的这两个特点结合起来，选择了另一条路：专门画讽刺企业管理的漫画，结果走红了，成了世界闻名的漫画家。</p>
+</blockquote>
+<blockquote>
+<p>他说，任何领域最优秀的前5%的人，都能拿到很好的报酬，比如，最优秀的那5%的程序员、面包师、钢琴家、美发师都是高收入的。但是，想要挤进这5%，是很不容易的，需要拼掉其他95%的人。但是，如果标准放宽一点，挤进前25%，普通人经过努力，还是很有希望达到的。</p>
+</blockquote>
+<p>成功的秘诀就是，<strong>你必须有两个能达到前25%水平的领域，这两个领域的交集就是你的职业方向</strong>。</p>
+<blockquote>
+<p>简单计算就可以知道，两个领域都是前25%，那么交集就是 25% 乘以 25%，等于 6.25%，即很有可能挤进前5%。更进一步，如果在两个领域里面，你都属于前10%的优秀人才，那么在交集里面，就可以达到顶尖的1%。总之，选择交集作为职业方向，你的竞争力会提升一个量级，收入也会随之大涨。</p>
+</blockquote>
+<blockquote>
+<p>举例来说，袁腾飞是一个中学历史老师，但是表达能力非常好，特别能说，简直能当脱口秀演员。如果他一直当中学历史老师，或者选择说脱口秀（就像黄西那样），可能都不会很成功，竞争者太多了。但是他把两者结合起来，专门在网上视频说历史，讲得就很有意思，非常受欢迎，另一方面这个领域的竞争者也很少。</p>
+</blockquote>
+<blockquote>
+<p>当市场出现大的热潮时，最好的策略通常不是参与这个热潮，而是成为工具提供者。</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://winforsky.github.io/misszheng/2019/01/30/iOS易忽略/" data-id="cjrot81jn0006vmq27zydk679" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/misszheng/2019/02/02/iOS不容忽视的网络/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          iOS不容忽视的网络
+        
+      </div>
+    </a>
+  
+  
+    <a href="/misszheng/2019/01/29/mysql性能优化学习摘要/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">mysql性能优化学习摘要</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/misszheng/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/misszheng/archives/2019/01/">January 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/misszheng/2019/02/02/iOS不容忽视的网络/">iOS不容忽视的网络</a>
+          </li>
+        
+          <li>
+            <a href="/misszheng/2019/01/30/iOS易忽略/">iOS易忽略</a>
+          </li>
+        
+          <li>
+            <a href="/misszheng/2019/01/29/mysql性能优化学习摘要/">mysql性能优化学习摘要</a>
+          </li>
+        
+          <li>
+            <a href="/misszheng/2019/01/22/mongo-基础/">mongo 基础</a>
+          </li>
+        
+          <li>
+            <a href="/misszheng/2019/01/15/APP-离线模式/">APP 离线模式</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 misszheng<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/misszheng/" class="mobile-nav-link">Home</a>
+  
+    <a href="/misszheng/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/misszheng/fancybox/jquery.fancybox.css">
+  <script src="/misszheng/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/misszheng/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>mongo 基础 | Hexo for misszheng</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近参加mongodb university 提供的mongodb基础入门的课程，学习mongodb的基础入门知识，现记录一下。 课程分为三部分+考试 1）Chapter 1: IntroductionIntroduction to MongoDB, Compass, and Basic Queries 2）Chapter 2: The MongoDB Query Language + Atlas">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mongo 基础">
+<meta property="og:url" content="https://winforsky.github.io/misszheng/2019/01/22/mongo-基础/index.html">
+<meta property="og:site_name" content="Hexo for misszheng">
+<meta property="og:description" content="最近参加mongodb university 提供的mongodb基础入门的课程，学习mongodb的基础入门知识，现记录一下。 课程分为三部分+考试 1）Chapter 1: IntroductionIntroduction to MongoDB, Compass, and Basic Queries 2）Chapter 2: The MongoDB Query Language + Atlas">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-02-02T06:39:34.460Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mongo 基础">
+<meta name="twitter:description" content="最近参加mongodb university 提供的mongodb基础入门的课程，学习mongodb的基础入门知识，现记录一下。 课程分为三部分+考试 1）Chapter 1: IntroductionIntroduction to MongoDB, Compass, and Basic Queries 2）Chapter 2: The MongoDB Query Language + Atlas">
+  
+    <link rel="alternate" href="/misszheng/atom.xml" title="Hexo for misszheng" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/misszheng/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/misszheng/" id="logo">Hexo for misszheng</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/misszheng/" id="subtitle">岁数大了，需要回忆的东西越来越多，只想有点记忆</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/misszheng/">Home</a>
+        
+          <a class="main-nav-link" href="/misszheng/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/misszheng/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://winforsky.github.io/misszheng"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-mongo-基础" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/misszheng/2019/01/22/mongo-基础/" class="article-date">
+  <time datetime="2019-01-22T01:45:53.000Z" itemprop="datePublished">2019-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      mongo 基础
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近参加mongodb university 提供的mongodb基础入门的课程，学习mongodb的基础入门知识，现记录一下。</p>
+<p>课程分为三部分+考试</p>
+<p>1）Chapter 1: Introduction<br>Introduction to MongoDB, Compass, and Basic Queries</p>
+<p>2）Chapter 2: The MongoDB Query Language + Atlas<br>Create, Read, Update, and Delete (CRUD) operations; cursors, projections, Atlas free-tier basics.</p>
+<p>3）Chapter 3: Deeper Dive on the MongoDB Query Language<br>Query operators: element operators, logical operators, array operators, and the regex operator</p>
+<p>4）Final Exam<br>Any topic in this course might be addressed in the final exam.</p>
+<p>课程由浅入深，手把手教会你如何操作，讲解比较细，有兴趣的朋友可以自行去了解。<br><a id="more"></a></p>
+<h2 id="1）Chapter-1-Introduction"><a href="#1）Chapter-1-Introduction" class="headerlink" title="1）Chapter 1: Introduction"></a>1）Chapter 1: Introduction</h2><p><code>Introduction to MongoDB, Compass, and Basic Queries</code><br>本章节主要介绍了MongoDB的基本概念，MongoDB官方图形界面工具Compass的基本使用。</p>
+<h3 id="MongoDB的基本概念"><a href="#MongoDB的基本概念" class="headerlink" title="MongoDB的基本概念"></a>MongoDB的基本概念</h3><ul>
+<li>Database 数据库， use myNewDB 数据库myNewDB不存在时会自动创建</li>
+<li>Collection 集合， db.myNewCollection1.insertOne( { x: 1 } ) 集合myNewCollection1 不存在时会自动创建</li>
+<li>Document 文档  =》BSON =》{}</li>
+</ul>
+<p><strong>由dbName.collectionName组成namespace</strong></p>
+<p><strong>都是{}, 无论是document，还是filter条件，还是options选项</strong></p>
+<h3 id="Compass的安装"><a href="#Compass的安装" class="headerlink" title="Compass的安装"></a>Compass的安装</h3><ul>
+<li>MongoDB官方推出的图形界面工具，功能强大，随用随知道。</li>
+<li>从官网下载安装即可</li>
+</ul>
+<h3 id="Compass的基本使用"><a href="#Compass的基本使用" class="headerlink" title="Compass的基本使用"></a>Compass的基本使用</h3><ul>
+<li>连接数据库服务器：按照基础设置连接官方为本次课程准备的数据库服务器。</li>
+<li>查看数据库信息：连接上之后可以看到当前数据库服务器上提供的数据库及其占用空间、集合数以及索引数量等信息。</li>
+<li>查看数据库下的某个数据集合的具体信息：选中数据库下的某个数据集合点击进去即可查看到相关信息，包含Documents、Aggregations、Schema、Explain Plan、Indexes、Indexes等<br>在SChema标签下，可以看到当前collection中的document的字段相关信息，包含字段名称、字段数据类型、字段数据类型分布比例，字段数据内容等</li>
+</ul>
+<p>支持的字段数据类型，<a href="https://docs.mongodb.com/manual/reference/bson-types/" target="_blank" rel="noopener">参见官方链接</a></p>
+<ul>
+<li>设置filter条件筛选数据，只需要在Schema标签下，选中某个字段即可看到在工具栏上方的filter中已经设置好对应的筛选条件，点击analyze按钮即可筛选数据。</li>
+<li>更多强大功能，请自行摸索。</li>
+</ul>
+<p>##注意Geographical Data##<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MongoDB Compass uses a 3rd party plugin for the geographical visualization of geospatial fields in your documents.</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enable geographical visualization =&gt; Help -&gt; Privacy Settings From MongoDB Compass Menu.</span><br></pre></td></tr></table></figure>
+<h2 id="2）Chapter-2-The-MongoDB-Query-Language-Atlas"><a href="#2）Chapter-2-The-MongoDB-Query-Language-Atlas" class="headerlink" title="2）Chapter 2: The MongoDB Query Language + Atlas"></a>2）Chapter 2: The MongoDB Query Language + Atlas</h2><p><code>Create, Read, Update, and Delete (CRUD) operations; cursors, projections, Atlas free-tier basics</code></p>
+<ul>
+<li>CRUD基本概念</li>
+<li>mongo shell的安装</li>
+<li>mongo shell的基本使用</li>
+</ul>
+<h3 id="创建-Create-by-insert-insertOne-insertMany"><a href="#创建-Create-by-insert-insertOne-insertMany" class="headerlink" title="创建 Create by insert\insertOne\insertMany"></a>创建 Create by insert\insertOne\insertMany</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.collection.insert(</span><br><span class="line">   &lt;document or array of documents&gt;,</span><br><span class="line">   &#123;</span><br><span class="line">     writeConcern: &lt;document&gt;,//写入协议，不建议在事务中明确指定 Do not explicitly set the write concern for the operation if run in a transaction</span><br><span class="line">     ordered: &lt;boolean&gt;//是否有序插入，默认true</span><br><span class="line">   &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">db.collection.insertOne(</span><br><span class="line">   &lt;document&gt;,</span><br><span class="line">   &#123;</span><br><span class="line">      writeConcern: &lt;document&gt;</span><br><span class="line">   &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.collection.insertMany(</span><br><span class="line">   [ &lt;document 1&gt; , &lt;document 2&gt;, ... ],</span><br><span class="line">   &#123;</span><br><span class="line">      writeConcern: &lt;document&gt;,</span><br><span class="line">      ordered: &lt;boolean&gt;</span><br><span class="line">   &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="读取-Read-by-find、findOne"><a href="#读取-Read-by-find、findOne" class="headerlink" title="读取 Read by find、findOne"></a>读取 Read by find、findOne</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.collection.find(query, projection)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.collection.findOne(query, projection)</span><br></pre></td></tr></table></figure>
+<p>其中</p>
+<ul>
+<li><code>query</code> 定义查询条件,使用<a href="https://docs.mongodb.com/manual/reference/operator/" target="_blank" rel="noopener">查询操作运算符</a></li>
+</ul>
+<p>##查询条件是数组时需要注意##</p>
+<p>1、加了[]时表示完全匹配</p>
+<p>2、不加[]时表示包含匹配</p>
+<p>3、指定数组字段的索引时表示该顺序下的匹配</p>
+<ul>
+<li><code>projection</code>定义需要返回等字段名称，0不返回，1返回</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; field1: &lt;value&gt;, field2: &lt;value&gt; ... &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>Cursor</code> 游标用来指向返回的数据集合，后续操作可以直接用来获取数据</li>
+</ul>
+<h3 id="更新-Update-by-update-updateOne-updateMany"><a href="#更新-Update-by-update-updateOne-updateMany" class="headerlink" title="更新 Update by  update\updateOne\updateMany"></a>更新 Update by  update\updateOne\updateMany</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">db.collection.update(</span><br><span class="line">   &lt;query&gt;,//筛选条件</span><br><span class="line">   &lt;update&gt;,//更新操作，包含[更新操作运算符](https://docs.mongodb.com/manual/reference/operator/update/)</span><br><span class="line">   &#123;</span><br><span class="line">     upsert: &lt;boolean&gt;,//满足筛选条件时update or 不满足筛选条件时 insert，默认false</span><br><span class="line">     multi: &lt;boolean&gt;,//当多条数据满足筛选条件时更新多条，默认false</span><br><span class="line">     writeConcern: &lt;document&gt;,//</span><br><span class="line">     collation: &lt;document&gt;,//string类型数据比较时规则验证</span><br><span class="line">     arrayFilters: [ &lt;filterdocument1&gt;, ... ]</span><br><span class="line">   &#125;//更新操作选项</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">db.collection.updateOne(</span><br><span class="line">   &lt;filter&gt;,</span><br><span class="line">   &lt;update&gt;,</span><br><span class="line">   &#123;</span><br><span class="line">     upsert: &lt;boolean&gt;,</span><br><span class="line">     writeConcern: &lt;document&gt;,</span><br><span class="line">     collation: &lt;document&gt;,</span><br><span class="line">     arrayFilters: [ &lt;filterdocument1&gt;, ... ]</span><br><span class="line">   &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">db.collection.updateMany(</span><br><span class="line">   &lt;filter&gt;,</span><br><span class="line">   &lt;update&gt;,</span><br><span class="line">   &#123;</span><br><span class="line">     upsert: &lt;boolean&gt;,</span><br><span class="line">     writeConcern: &lt;document&gt;,</span><br><span class="line">     collation: &lt;document&gt;,</span><br><span class="line">     arrayFilters: [ &lt;filterdocument1&gt;, ... ]</span><br><span class="line">   &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="删除-Delete-by-deleteOne-deleteMany"><a href="#删除-Delete-by-deleteOne-deleteMany" class="headerlink" title="删除 Delete by deleteOne\deleteMany"></a>删除 Delete by deleteOne\deleteMany</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.collection.deleteOne(</span><br><span class="line">   &lt;filter&gt;,</span><br><span class="line">   &#123;</span><br><span class="line">      writeConcern: &lt;document&gt;,</span><br><span class="line">      collation: &lt;document&gt;</span><br><span class="line">   &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.collection.deleteMany(</span><br><span class="line">   &lt;filter&gt;,</span><br><span class="line">   &#123;</span><br><span class="line">      writeConcern: &lt;document&gt;,</span><br><span class="line">      collation: &lt;document&gt;</span><br><span class="line">   &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>通过以上的学习，基本掌握了mongodb的基本使用。</p>
+<h2 id="3）Chapter-3-Deeper-Dive-on-the-MongoDB-Query-Language"><a href="#3）Chapter-3-Deeper-Dive-on-the-MongoDB-Query-Language" class="headerlink" title="3）Chapter 3: Deeper Dive on the MongoDB Query Language"></a>3）Chapter 3: Deeper Dive on the MongoDB Query Language</h2><p><code>Query operators: element operators, logical operators, array operators, and the regex operator</code></p>
+<h3 id="比较操作符"><a href="#比较操作符" class="headerlink" title="比较操作符"></a>比较操作符</h3><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Number</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$eq</code></td>
+<td>等于</td>
+<td></td>
+</tr>
+<tr>
+<td><code>$ne</code></td>
+<td>不等于</td>
+<td></td>
+</tr>
+<tr>
+<td><code>$gt</code></td>
+<td>大于</td>
+<td></td>
+</tr>
+<tr>
+<td><code>$gte</code></td>
+<td>大于等于</td>
+<td></td>
+</tr>
+<tr>
+<td><code>$lt</code></td>
+<td>小于</td>
+<td></td>
+</tr>
+<tr>
+<td><code>$lte</code></td>
+<td>小于等于</td>
+<td></td>
+</tr>
+<tr>
+<td><code>$in</code></td>
+<td>在数组范围内</td>
+<td></td>
+</tr>
+<tr>
+<td><code>$nin</code></td>
+<td>不在数组范围内</td>
+</tr>
+</tbody>
+</table>
+<h3 id="元素操作符"><a href="#元素操作符" class="headerlink" title="元素操作符"></a>元素操作符</h3><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Number</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$exists</code></td>
+<td>根据元素是否存在来筛选</td>
+<td><code>false</code>时等价于对于元素值为<code>null</code></td>
+</tr>
+<tr>
+<td><code>$type</code></td>
+<td>根据元素值的类型来筛选</td>
+<td>值类型参见最后的附录</td>
+</tr>
+</tbody>
+</table>
+<h3 id="逻辑操作符"><a href="#逻辑操作符" class="headerlink" title="逻辑操作符"></a>逻辑操作符</h3><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Number</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$or</code></td>
+<td>等于</td>
+<td></td>
+</tr>
+<tr>
+<td><code>$and</code></td>
+<td>不等于</td>
+<td></td>
+</tr>
+<tr>
+<td><code>$not</code></td>
+<td>大于</td>
+<td></td>
+</tr>
+<tr>
+<td><code>$nor</code></td>
+<td>大于等于</td>
+</tr>
+</tbody>
+</table>
+<p><strong>筛选条件是数组集合</strong></p>
+<ul>
+<li>{$or: [{depth: 0}, {watlev: “always dry”}]}</li>
+<li>{“$or”: [{“watlev”: {“$eq”: “always dry”}}, {“depth”: {“$eq”: 0}}]}</li>
+<li>上面2个的逻辑是一致</li>
+<li>数组中的筛选条件可以是相同字段的多种条件组合</li>
+</ul>
+<h3 id="数组操作符"><a href="#数组操作符" class="headerlink" title="数组操作符"></a>数组操作符</h3><p><strong>操作对象必须时数组</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Number</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$all</code></td>
+<td>数组内的元素必须全包含才匹配</td>
+<td>{sections: {$all:[ “AG1”, “MD1”, “OA1”]}}}</td>
+</tr>
+<tr>
+<td><code>$size</code></td>
+<td>数组的大小必须相等才匹配</td>
+<td>{sections: {$size:2}}</td>
+</tr>
+<tr>
+<td><code>$elemmatch</code></td>
+<td>数组内的元素为object时，object必须满足匹配条件时才匹配</td>
+<td>{sections: {$elemmatch:{product: “xyz”, score: 8}}}</td>
+</tr>
+</tbody>
+</table>
+<h3 id="表达式操作符"><a href="#表达式操作符" class="headerlink" title="表达式操作符"></a>表达式操作符</h3><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Number</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$expr</code></td>
+<td>允许用户使用查询条件表达式来匹配</td>
+<td><code>{ $expr: { $gt: [ &quot;$spent&quot; , &quot;$budget&quot; ] } }</code>  spent字段的数据&gt;budget字段的数据</td>
+</tr>
+<tr>
+<td><code>$jsonSchema</code></td>
+<td>匹配给定的JSON格式</td>
+<td><code>MongoDB 3.6</code> 新引入，使用时需要注意版本，<a href="https://docs.mongodb.com/manual/reference/operator/query/jsonSchema/#op._S_jsonSchema" target="_blank" rel="noopener">点击查看详细使用说明</a></td>
+</tr>
+<tr>
+<td><code>$mod</code></td>
+<td>取余数匹配，必须2个值，【除数，余数】</td>
+<td><code>{ field: { $mod: [ divisor, remainder ] } }</code></td>
+</tr>
+<tr>
+<td><code>$regex</code></td>
+<td>正则匹配</td>
+<td></td>
+</tr>
+<tr>
+<td><code>$text</code></td>
+<td>文本搜索，需要在建立text索引的字段上进行.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>$where</code></td>
+<td>根据js表达式返回的bool值进行匹配</td>
+<td>完整的js解析器</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>$expr</code>的筛选条件可以很复杂</strong></p>
+<p>通过以上学习，基本掌握了Mongodb筛选条件查询的操作。</p>
+<h2 id="4）Final-Exam"><a href="#4）Final-Exam" class="headerlink" title="4）Final Exam"></a>4）Final Exam</h2><p><code>Any topic in this course might be addressed in the final exam</code></p>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><h3 id="值类型对应的名称"><a href="#值类型对应的名称" class="headerlink" title="值类型对应的名称"></a>值类型对应的名称</h3><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Number</th>
+<th>Alias</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Double</td>
+<td>1</td>
+<td>“double”</td>
+</tr>
+<tr>
+<td>String</td>
+<td>2</td>
+<td>“string”</td>
+</tr>
+<tr>
+<td>Object</td>
+<td>3</td>
+<td>“object”</td>
+</tr>
+<tr>
+<td>Array</td>
+<td>4</td>
+<td>“array”</td>
+</tr>
+<tr>
+<td>Binary data</td>
+<td>5</td>
+<td>“binData”</td>
+</tr>
+<tr>
+<td>Undefined</td>
+<td>6</td>
+<td>“undefined”</td>
+<td>Deprecated.</td>
+</tr>
+<tr>
+<td>ObjectId</td>
+<td>7</td>
+<td>“objectId”</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td>8</td>
+<td>“bool”</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>9</td>
+<td>“date”</td>
+</tr>
+<tr>
+<td>Null</td>
+<td>10</td>
+<td>“null”</td>
+</tr>
+<tr>
+<td>Regular Expression</td>
+<td>11</td>
+<td>“regex”</td>
+</tr>
+<tr>
+<td>DBPointer</td>
+<td>12</td>
+<td>“dbPointer”</td>
+<td>Deprecated.</td>
+</tr>
+<tr>
+<td>JavaScript</td>
+<td>13</td>
+<td>“javascript”</td>
+</tr>
+<tr>
+<td>Symbol</td>
+<td>14</td>
+<td>“symbol”</td>
+<td>Deprecated.</td>
+</tr>
+<tr>
+<td>JavaScript (with scope)</td>
+<td>15</td>
+<td>“javascriptWithScope”</td>
+</tr>
+<tr>
+<td>32-bit integer</td>
+<td>16</td>
+<td>“int”</td>
+</tr>
+<tr>
+<td>Timestamp</td>
+<td>17</td>
+<td>“timestamp”</td>
+</tr>
+<tr>
+<td>64-bit integer</td>
+<td>18</td>
+<td>“long”</td>
+</tr>
+<tr>
+<td>Decimal128</td>
+<td>19</td>
+<td>“decimal”</td>
+<td>New in version 3.4.</td>
+</tr>
+<tr>
+<td>Min key</td>
+<td>-1</td>
+<td>“minKey”</td>
+</tr>
+<tr>
+<td>Max key</td>
+<td>127</td>
+<td>“maxKey”</td>
+</tr>
+<tr>
+<td>——</td>
+<td>——</td>
+<td>——</td>
+<td>——</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://winforsky.github.io/misszheng/2019/01/22/mongo-基础/" data-id="cjrot81je0005vmq2tisvemd0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/misszheng/2019/01/29/mysql性能优化学习摘要/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          mysql性能优化学习摘要
+        
+      </div>
+    </a>
+  
+  
+    <a href="/misszheng/2019/01/15/APP-离线模式/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">APP 离线模式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/misszheng/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/misszheng/archives/2019/01/">January 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/misszheng/2019/02/02/iOS不容忽视的网络/">iOS不容忽视的网络</a>
+          </li>
+        
+          <li>
+            <a href="/misszheng/2019/01/30/iOS易忽略/">iOS易忽略</a>
+          </li>
+        
+          <li>
+            <a href="/misszheng/2019/01/29/mysql性能优化学习摘要/">mysql性能优化学习摘要</a>
+          </li>
+        
+          <li>
+            <a href="/misszheng/2019/01/22/mongo-基础/">mongo 基础</a>
+          </li>
+        
+          <li>
+            <a href="/misszheng/2019/01/15/APP-离线模式/">APP 离线模式</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 misszheng<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/misszheng/" class="mobile-nav-link">Home</a>
+  
+    <a href="/misszheng/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/misszheng/fancybox/jquery.fancybox.css">
+  <script src="/misszheng/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/misszheng/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
