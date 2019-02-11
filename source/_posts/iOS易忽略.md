@@ -242,6 +242,54 @@ for (int i = 0; i < 10000; ++i) {
 * 做App还是要多注意下安全方面的东西，即使上了https，也要做多做一层加密保护。安全方面的工作，做得再多也为过。
 
 
+## iOS单例模式 and NSUserDefaults
+* 单例模式虽然能存入任何类型的对象，但是它会随着程序的挂起而消亡。
+* 而NSUserDefaults在读取自定义类型时有些繁琐，降低编码效率和可读性，好处是程序下次启动依然能读取到上次的状态。
+* 在实际应用中采取了二者结合的模式：让单例模式的类实现协议，程序第一次启动的时候通过NSData做载体读取单例类的实例，并存入单例，程序运行中一直对单例做存储操作，当程序快要进入到后台挂起的时候，通过NSData做载体存入NSUserDefaults，一举两得。
+```
+//SNShops.h
+
+@interface SNShops : NSObject<NSCoding>
+
+@property (nonatomic,strong) NSString* sid;
+@property (nonatomic,strong) NSString* name;
+
+- (id) initWithCoder: (NSCoder *)coder;
+- (void) encodeWithCoder: (NSCoder *)coder;
+
+//SNShops.m
+@implementation SNShops
+- (id) initWithCoder: (NSCoder *)coder
+{
+    if (self = [super init])
+    {
+        self.sid = [coder decodeObjectForKey:@"sid"];
+        self.name = [coder decodeObjectForKey:@"name"];
+    }
+    return self;
+}
+- (void) encodeWithCoder: (NSCoder *)coder
+{
+    [coder encodeObject:self.sid forKey:@"sid"];
+    [coder encodeObject:self.name forKey:@"name"];
+}
+```
+* 存入
+```
+NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+SNShops *shop = [[SNShops alloc]init];
+NSData *shopData = [NSKeyedArchiver archivedDataWithRootObject:shop];
+[standardDefaults setObject:shopData forKey:@"myshop"];
+[standardDefaults synchronize];
+```
+* 读取
+```
+NSData *newshopData = [standardDefaults objectForKey:"myshop"];
+SNShops *newshop = [NSKeyedUnarchiver unarchiveObjectWithData:newshopData];
+```
+
+
+
 ## 普通人如何实现top5
 
 > 呆伯特漫画的作者亚当斯（ Scott Adams），有一次谈到自己的成功秘诀。
@@ -257,3 +305,148 @@ for (int i = 0; i < 10000; ++i) {
 > 举例来说，袁腾飞是一个中学历史老师，但是表达能力非常好，特别能说，简直能当脱口秀演员。如果他一直当中学历史老师，或者选择说脱口秀（就像黄西那样），可能都不会很成功，竞争者太多了。但是他把两者结合起来，专门在网上视频说历史，讲得就很有意思，非常受欢迎，另一方面这个领域的竞争者也很少。
 
 > 当市场出现大的热潮时，最好的策略通常不是参与这个热潮，而是成为工具提供者。
+
+## xCode 得到汇编代码
+在Xcode中选择菜单Product->Perform Action->Assemble “main.m”，就得到如下的汇编代码。
+
+## 关于信号量semaphore、互斥量mutex、锁lock、Condition
+*    semaphore//信号量，操作系统层面，count个数、queue队列、wait()等待信号的到达、signal()释放信号。
+*    mutex//互斥锁，等价于 信号量为1，操作系统层面
+*    lock//NSLock锁，等价于mutex，具体到某个平台层面，提供lock(),unlock()两个功能
+*    Condition甚至可以理解成一种“特殊”的Semaphore。特殊之处就在于它没有count（资源数）。它也有wait和signal两种行为。
+> iOS里的NSCondition，它其实是Lock和Condition的集合体。即提供Lock的lock() unlock()方法，同时提供Condition的wait() signal()。
+
+## 性能对比
+>    //NSLock: 3.5175 sec
+>    //NSLock+IMP Cache: 3.1165 sec
+>    //Mutex: 1.5870 sec
+>    //SpinLock: 1.0893
+>    //@synchronized: 9.9488 sec
+参考文章有：
+* [关于 @synchronized，这儿比你想知道的还要多](http://yulingtianxia.com/blog/2015/11/01/More-than-you-want-to-know-about-synchronized/)
+* [正确使用多线程同步锁@synchronized()](http://mrpeak.cn/blog/synchronized/)
+
+因为
+```
+@synchronized(obj) {
+    // do work
+}
+```
+转化成这样的东东：
+```
+@try {
+    objc_sync_enter(obj);
+    // do work
+} @finally {
+    objc_sync_exit(obj);    
+}
+```
+得到3点：
+* synchronized是使用的递归mutex来做同步，而不会导致死锁。java当中的synchronized关键字也是使用的递归锁，看来这是个common trick。recursive mutex其实里面还是使用了pthread_mutex_t，只不过多了一层ownership的判断，性能上比非递归锁要稍微慢一些。
+* @synchronized(nil)不起任何作用，表明我们需要适当关注传入的object的声明周期，一旦置为nil之后就无法做代码同步了。
+* 慎用@synchronized(self)，容易导致死锁的出现。正确的做法是传入一个类内部维护的NSObject对象，而且这个对象是对外不可见的。
+* @synchronized不同的critical section要使用不同的锁，不同的数据使用不同的锁，尽量将粒度控制在最细的程度。
+```
+@synchronized (sharedToken) {
+    [arrA addObject:obj];
+}
+
+@synchronized (sharedToken) {
+    [arrB addObject:obj];
+}
+```
+虽然arrA和arrB之间没有任何联系, 却使用同一个token来同步arrA和arrB的访问，所以会慢。
+```
+@synchronized (tokenA) {
+    [arrA addObject:obj];
+}
+
+@synchronized (tokenB) {
+    [arrB addObject:obj];
+}
+```
+* @synchronized有个很容易变慢的场景，就是{}内部有其他隐蔽的函数调用。
+```
+@synchronized (tokenA) {
+    [arrA addObject:obj];
+    [self doSomethingWithA:arrA];//这里容易被忽略
+}
+```
+
+
+[测试代码](http://perpendiculo.us/2009/09/synchronized-nslock-pthread-osspinlock-showdown-done-right/)
+```
+#import <Foundation/Foundation.h>
+#import <objc/runtime.h>
+#import <objc/message.h>
+#import <libkern/OSAtomic.h>
+#import <pthread.h>
+
+#define ITERATIONS (1024*1024*32)
+
+static unsigned long long disp=0, land=0;
+
+int main()
+{
+ double then, now;
+ unsigned int i, count;
+ pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+ OSSpinLock spinlock = OS_SPINLOCK_INIT;
+
+ NSAutoreleasePool *pool = [NSAutoreleasePool new];
+
+ NSLock *lock = [NSLock new];
+ then = CFAbsoluteTimeGetCurrent();
+ for(i=0;i<ITERATIONS;++i)
+ {
+ [lock lock];
+ [lock unlock];
+ }
+ now = CFAbsoluteTimeGetCurrent();
+ printf("NSLock: %f sec\n", now-then);    
+
+ then = CFAbsoluteTimeGetCurrent();
+ IMP lockLock = [lock methodForSelector:@selector(lock)];
+ IMP unlockLock = [lock methodForSelector:@selector(unlock)];
+ for(i=0;i<ITERATIONS;++i)
+ {
+ lockLock(lock,@selector(lock));
+ unlockLock(lock,@selector(unlock));
+ }
+ now = CFAbsoluteTimeGetCurrent();
+ printf("NSLock+IMP Cache: %f sec\n", now-then);    
+
+ then = CFAbsoluteTimeGetCurrent();
+ for(i=0;i<ITERATIONS;++i)
+ {
+ pthread_mutex_lock(&mutex);
+ pthread_mutex_unlock(&mutex);
+ }
+ now = CFAbsoluteTimeGetCurrent();
+ printf("pthread_mutex: %f sec\n", now-then);
+
+ then = CFAbsoluteTimeGetCurrent();
+ for(i=0;i<ITERATIONS;++i)
+ {
+ OSSpinLockLock(&spinlock);
+ OSSpinLockUnlock(&spinlock);
+ }
+ now = CFAbsoluteTimeGetCurrent();
+ printf("OSSpinlock: %f sec\n", now-then);
+
+ id obj = [NSObject new];
+
+ then = CFAbsoluteTimeGetCurrent();
+ for(i=0;i<ITERATIONS;++i)
+ {
+ @synchronized(obj)
+ {
+ }
+ }
+ now = CFAbsoluteTimeGetCurrent();
+ printf("@synchronized: %f sec\n", now-then);
+
+ [pool release];
+ return 0;
+}
+```
