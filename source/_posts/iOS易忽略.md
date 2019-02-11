@@ -288,6 +288,21 @@ NSData *newshopData = [standardDefaults objectForKey:"myshop"];
 SNShops *newshop = [NSKeyedUnarchiver unarchiveObjectWithData:newshopData];
 ```
 
+## UIControl 的 事件响应
+```
+// add target/action for particular event. you can call this multiple times and you can specify multiple target/actions for a particular event.
+// passing in nil as the target goes up the responder chain. The action may optionally include the sender and the event in that order
+// the action cannot be NULL. Note that the target is not retained.
+- (void)addTarget:(nullable id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents;
+
+// remove the target/action for a set of events. pass in NULL for the action to remove all actions for that target
+- (void)removeTarget:(nullable id)target action:(nullable SEL)action forControlEvents:(UIControlEvents)controlEvents;
+```
+![事件响应链](https://docs-assets.developer.apple.com/published/7c21d852b9/f17df5bc-d80b-4e17-81cf-4277b1e0f6e4.png)
+手势的响应速度优于事件传递响应链[uigesturerecognizer](https://developer.apple.com/documentation/uikit/uigesturerecognizer)
+```
+A window delivers touch events to a gesture recognizer before it delivers them to the hit-tested view attached to the gesture recognizer. Generally, if a gesture recognizer analyzes the stream of touches in a multi-touch sequence and doesn’t recognize its gesture, the view receives the full complement of touches. If a gesture recognizer recognizes its gesture, the remaining touches for the view are cancelled. 
+```
 
 
 ## 普通人如何实现top5
