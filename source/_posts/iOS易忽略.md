@@ -173,6 +173,11 @@ button.rx_tap
 
 Network Throttle体现了一句至理名言「慢即是快」。
 
+## 解决UITableView、UICollectionView在reloadData之后的闪动
+
+* `reloadData`之后多加一句`layoutIfNeeded`
+或
+* `beginUpdates`>> `实际的action`>> `endUpdates`
 
 ## Wireshark抓包iOS入门教程
 [Wireshark抓包iOS入门教程](http://mrpeak.cn/blog/wireshark/)
@@ -288,7 +293,38 @@ NSData *newshopData = [standardDefaults objectForKey:"myshop"];
 SNShops *newshop = [NSKeyedUnarchiver unarchiveObjectWithData:newshopData];
 ```
 
+## 如何高性能的给UIImageView加个圆角？
+> layer.cornerRadius？cornerRadius会导致offscreen drawing有性能问题
+> 美工切图无法适用有背景图的场景
+> 正确的做法是切换到工作线程利用CoreGraphic API生成一个offscreen UIImage，再切换到main thread赋值给UIImageView。
+这里还涉及到UIImageView复用，圆角头像cache缓存（不能每次都去绘制），新旧头像替换等等逻辑。
+> 还有其他的实现方式，但思路离不开工作线程与主线程切换。
 
+## UIControl 的 事件响应
+```
+// add target/action for particular event. you can call this multiple times and you can specify multiple target/actions for a particular event.
+// passing in nil as the target goes up the responder chain. The action may optionally include the sender and the event in that order
+// the action cannot be NULL. Note that the target is not retained.
+- (void)addTarget:(nullable id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents;
+
+// remove the target/action for a set of events. pass in NULL for the action to remove all actions for that target
+- (void)removeTarget:(nullable id)target action:(nullable SEL)action forControlEvents:(UIControlEvents)controlEvents;
+```
+![事件响应链](https://docs-assets.developer.apple.com/published/7c21d852b9/f17df5bc-d80b-4e17-81cf-4277b1e0f6e4.png)
+手势的响应速度优于事件传递响应链[uigesturerecognizer](https://developer.apple.com/documentation/uikit/uigesturerecognizer)
+```
+A window delivers touch events to a gesture recognizer before it delivers them to the hit-tested view attached to the gesture recognizer. Generally, if a gesture recognizer analyzes the stream of touches in a multi-touch sequence and doesn’t recognize its gesture, the view receives the full complement of touches. If a gesture recognizer recognizes its gesture, the remaining touches for the view are cancelled. 
+```
+
+## 代码查看视图层级
+
+`po [[[UIApplication sharedApplication] keyWindow] recursiveDescription]`
+
+使用 [Chisel](https://github.com/facebook/chisel) 简化 LLDB 命令
+
+* 输出视图层级只需要一条命令：pviews，
+* 输出视图控制器层级也是一条命令：pvc，
+* 刷新渲染服务更是一条命令：caflush。
 
 ## 普通人如何实现top5
 
@@ -301,33 +337,39 @@ SNShops *newshop = [NSKeyedUnarchiver unarchiveObjectWithData:newshopData];
 成功的秘诀就是，**你必须有两个能达到前25%水平的领域，这两个领域的交集就是你的职业方向**。
 
 > 简单计算就可以知道，两个领域都是前25%，那么交集就是 25% 乘以 25%，等于 6.25%，即很有可能挤进前5%。更进一步，如果在两个领域里面，你都属于前10%的优秀人才，那么在交集里面，就可以达到顶尖的1%。总之，选择交集作为职业方向，你的竞争力会提升一个量级，收入也会随之大涨。
-
 > 举例来说，袁腾飞是一个中学历史老师，但是表达能力非常好，特别能说，简直能当脱口秀演员。如果他一直当中学历史老师，或者选择说脱口秀（就像黄西那样），可能都不会很成功，竞争者太多了。但是他把两者结合起来，专门在网上视频说历史，讲得就很有意思，非常受欢迎，另一方面这个领域的竞争者也很少。
-
 > 当市场出现大的热潮时，最好的策略通常不是参与这个热潮，而是成为工具提供者。
 
 ## xCode 得到汇编代码
+
 在Xcode中选择菜单Product->Perform Action->Assemble “main.m”，就得到如下的汇编代码。
 
 ## 关于信号量semaphore、互斥量mutex、锁lock、Condition
-*    semaphore//信号量，操作系统层面，count个数、queue队列、wait()等待信号的到达、signal()释放信号。
-*    mutex//互斥锁，等价于 信号量为1，操作系统层面
-*    lock//NSLock锁，等价于mutex，具体到某个平台层面，提供lock(),unlock()两个功能
-*    Condition甚至可以理解成一种“特殊”的Semaphore。特殊之处就在于它没有count（资源数）。它也有wait和signal两种行为。
+
+* semaphore//信号量，操作系统层面，count个数、queue队列、wait()等待信号的到达、signal()释放信号。
+* mutex//互斥锁，等价于 信号量为1，操作系统层面
+* 其实mutex 和semaphore是不同的：锁是服务于共享资源的；而semaphore是服务于多个线程间的执行的逻辑顺序的。
+* lock//NSLock锁，等价于mutex，具体到某个平台层面，提供lock(),unlock()两个功能
+* Condition甚至可以理解成一种“特殊”的Semaphore。特殊之处就在于它没有count（资源数）。它也有wait和signal两种行为。
+
 > iOS里的NSCondition，它其实是Lock和Condition的集合体。即提供Lock的lock() unlock()方法，同时提供Condition的wait() signal()。
 
 ## 性能对比
->    //NSLock: 3.5175 sec
->    //NSLock+IMP Cache: 3.1165 sec
->    //Mutex: 1.5870 sec
->    //SpinLock: 1.0893
->    //@synchronized: 9.9488 sec
+
+> //NSLock: 3.5175 sec
+> //NSLock+IMP Cache: 3.1165 sec
+> //Mutex: 1.5870 sec
+> //SpinLock: 1.0893
+> //@synchronized: 9.9488 sec
 参考文章有：
+
 * [关于 @synchronized，这儿比你想知道的还要多](http://yulingtianxia.com/blog/2015/11/01/More-than-you-want-to-know-about-synchronized/)
 * [正确使用多线程同步锁@synchronized()](http://mrpeak.cn/blog/synchronized/)
 
 因为
+
 ```
+
 @synchronized(obj) {
     // do work
 }
@@ -364,8 +406,11 @@ SNShops *newshop = [NSKeyedUnarchiver unarchiveObjectWithData:newshopData];
 @synchronized (tokenB) {
     [arrB addObject:obj];
 }
+
 ```
+
 * @synchronized有个很容易变慢的场景，就是{}内部有其他隐蔽的函数调用。
+
 ```
 @synchronized (tokenA) {
     [arrA addObject:obj];
@@ -373,8 +418,8 @@ SNShops *newshop = [NSKeyedUnarchiver unarchiveObjectWithData:newshopData];
 }
 ```
 
-
 [测试代码](http://perpendiculo.us/2009/09/synchronized-nslock-pthread-osspinlock-showdown-done-right/)
+
 ```
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
