@@ -71,6 +71,19 @@ updateConstraints()在最后一行调用[super updateConstraints]，保证向父
 来源：简书
 简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。
 
+## Offscreen drawing
+
+Offscreen drawing on the other hand refers to the process of generating bitmap graphics in the background using the CPU before handing them off to the GPU for onscreen rendering. In iOS, offscreen drawing occurs automatically in any of the following cases:
+
+```
+Core Graphics (any class prefixed with CG*)
+The drawRect() method, even with an empty implementation.
+CALayers with a shouldRasterize property set to YES.
+CALayers using masks (setMasksToBounds) and dynamic shadows (setShadow*).
+Any text displayed on screen, including Core Text.
+Group opacity (UIViewGroupOpacity).
+```
+
 ## instruments
 
 https://developer.apple.com/videos/play/wwdc2018/410/

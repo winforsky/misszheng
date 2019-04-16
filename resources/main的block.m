@@ -43,7 +43,8 @@ StackBlock的生命周期由系统控制的，一旦返回之后，就被系统�
 /*
  Block中__block实现原理：
  1.普通非对象的变量
- ARC环境下，一旦Block赋值就会触发copy，__block就会copy到堆上，Block也是__NSMallocBlock。ARC环境下也是存在__NSStackBlock的时候，这种情况下，__block就在栈上。
+ ARC环境下，一旦Block赋值就会触发copy，__block就会copy到堆上，Block也是__NSMallocBlock。
+ ARC环境下也是存在__NSStackBlock的时候，这种情况下，__block就在栈上。
  MRC环境下，只有copy，__block才会被复制到堆上，否则，__block一直都在栈上，block也只是__NSStackBlock，这个时候__forwarding指针就只指向自己了。
  2.对象的变量
  在MRC环境下，__block根本不会对指针所指向的对象执行copy操作，而只是把指针进行的复制。
