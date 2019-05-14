@@ -196,3 +196,53 @@ dispatch_group_notify(uploadGroup, uploadQueue, ^{});
     return nil;
 }
 ```
+
+## 关于synchronized慢的问题
+
+精准的粒度控制
+有些人说@synchronized慢，但@synchronized和其他同步锁的性能相比并没有很夸张，对于使用者来说几乎忽略不计。
+
+之所以慢是更多的因为没有做好粒度控制。锁本质上是为了让我们的一段代码获得原子性，不同的critical section要使用不同的锁。我见过很多类似的写法：
+
+```oc
+@synchronized (sharedToken) {
+    [arrA addObject:obj];
+}
+
+@synchronized (sharedToken) {
+    [arrB addObject:obj];
+}
+```
+
+使用同一个token来同步arrA和arrB的访问，虽然arrA和arrB之间没有任何联系。传入self的就更不对了。
+
+应该是不同的数据使用不同的锁，尽量将粒度控制在最细的程度。上述代码应该是：
+
+```oc
+@synchronized (tokenA) {
+    [arrA addObject:obj];
+}
+
+@synchronized (tokenB) {
+    [arrB addObject:obj];
+}
+```
+
+注意内部的函数调用
+@synchronized还有个很容易变慢的场景，就是{}内部有其他隐蔽的函数调用。比如：
+
+```oc
+@synchronized (tokenA) {
+    [arrA addObject:obj];
+    [self doSomethingWithA:arrA];
+}
+```
+
+doSomethingWithA内部可能又调用了其他函数，维护doSomethingWithA的工程师可能并没有意识到自己是被锁同步的，由此层层叠叠可能引入更多的函数调用，代码就莫名其妙的越来越慢了，感觉锁的性能差，其实是我们没用好。
+
+所以在书写@synchronized内部代码的时候，要十分小心内部隐蔽的函数调用。
+
+## UIImage加载图片正确的思路
+
+* 对于大的图片且偶尔需要显示的应放到工程目录下，不要放到Assets.xcassets中；并使用imageWithContentsOfFile加载不让系统缓存;
+* 对于经常需要展示的小图片放到Assets.xcassets中让系统缓存，使用imageNamed加载;
