@@ -82,9 +82,88 @@ https://www.raywenderlich.com/397-instruments-tutorial-with-swift-getting-starte
 https://www.raywenderlich.com/3089-instruments-tutorial-for-ios-how-to-debug-memory-leaks  Instruments Tutorial for iOS: How To Debug Memory Leaks
 
 
-昨天：
-1、实现步骤式教学的缓存加载并进行调试 100%
-2、修复QA反馈的bug
-今天：
-1、完善我的画室页面逻辑
-2、完善我的作品再次编辑的逻辑
+CFRunLoopRef 的代码是开源的，你可以在这里 http://opensource.apple.com/tarballs/CF/ 下载到整个 CoreFoundation 的源码来查看。
+
+(Update: Swift 开源后，苹果又维护了一个跨平台的 CoreFoundation 版本：https://github.com/apple/swift-corelibs-foundation/，这个版本的源码可能和现有 iOS 系统中的实现略不一样，但更容易编译，而且已经适配了 Linux/Windows。)
+
+```oc
+/// 全局的Dictionary，key 是 pthread_t， value 是 CFRunLoopRef
+static CFMutableDictionaryRef loopsDic;
+/// 访问 loopsDic 时的锁
+static CFSpinLock_t loopsLock;
+
+/// 获取一个 pthread 对应的 RunLoop。
+CFRunLoopRef _CFRunLoopGet(pthread_t thread) {
+    OSSpinLockLock(&loopsLock);
+
+    if (!loopsDic) {
+        // 第一次进入时，初始化全局Dic，并先为主线程创建一个 RunLoop。
+        loopsDic = CFDictionaryCreateMutable();
+        CFRunLoopRef mainLoop = _CFRunLoopCreate();
+        CFDictionarySetValue(loopsDic, pthread_main_thread_np(), mainLoop);
+    }
+
+    /// 直接从 Dictionary 里获取。
+    CFRunLoopRef loop = CFDictionaryGetValue(loopsDic, thread));
+
+    if (!loop) {
+        /// 取不到时，创建一个
+        loop = _CFRunLoopCreate();
+        CFDictionarySetValue(loopsDic, thread, loop);
+        /// 注册一个回调，当线程销毁时，顺便也销毁其对应的 RunLoop。
+        _CFSetTSD(..., thread, loop, __CFFinalizeRunLoop);
+    }
+
+    OSSpinLockUnLock(&loopsLock);
+    return loop;
+}
+
+CFRunLoopRef CFRunLoopGetMain() {
+    return _CFRunLoopGet(pthread_main_thread_np());
+}
+
+CFRunLoopRef CFRunLoopGetCurrent() {
+    return _CFRunLoopGet(pthread_self());
+}
+```
+
+* 线程和 RunLoop 之间是一一对应的，其关系是保存在一个全局的 Dictionary 里。
+* 线程刚创建时并没有 RunLoop，如果你不主动获取，那它一直都不会有。
+* RunLoop 的创建是发生在第一次获取时，RunLoop 的销毁是发生在线程结束时。
+* 你只能在一个线程的内部获取其 RunLoop（主线程除外）。
+
+* 一个 RunLoop 包含若干个 Mode，每个 Mode 又包含若干个 Source/Timer/Observer。
+每次调用 RunLoop 的主函数时，只能指定其中一个 Mode，这个Mode被称作 CurrentMode。
+如果需要切换 Mode，只能退出 Loop，再重新指定一个 Mode 进入。
+这样做主要是为了分隔开不同组的 Source/Timer/Observer，让其互不影响。
+
+* CFRunLoopSourceRef 是事件产生的地方。Source有两个版本：Source0 和 Source1。
+• Source0 只包含了一个回调（函数指针），它并不能主动触发事件。使用时，你需要先调用 CFRunLoopSourceSignal(source)，将这个 Source 标记为待处理，然后手动调用 CFRunLoopWakeUp(runloop) 来唤醒 RunLoop，让其处理这个事件。
+• Source1 包含了一个 mach_port 和一个回调（函数指针），被用于通过内核和其他线程相互发送消息。这种 Source 能主动唤醒 RunLoop 的线程，其原理在下面会讲到。
+
+* CFRunLoopTimerRef 是基于时间的触发器，它和 NSTimer 是toll-free bridged 的，可以混用。其包含一个时间长度和一个回调（函数指针）。当其加入到 RunLoop 时，RunLoop会注册对应的时间点，当时间点到时，RunLoop会被唤醒以执行那个回调。
+
+* CFRunLoopObserverRef 是观察者，每个 Observer 都包含了一个回调（函数指针），当 RunLoop 的状态发生变化时，观察者就能通过回调接受到这个变化。可以观测的时间点有以下几个：
+
+typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
+    kCFRunLoopEntry         = (1UL << 0), // 即将进入Loop
+    kCFRunLoopBeforeTimers  = (1UL << 1), // 即将处理 Timer
+    kCFRunLoopBeforeSources = (1UL << 2), // 即将处理 Source
+    kCFRunLoopBeforeWaiting = (1UL << 5), // 即将进入休眠
+    kCFRunLoopAfterWaiting  = (1UL << 6), // 刚从休眠中唤醒
+    kCFRunLoopExit          = (1UL << 7), // 即将退出Loop
+};
+
+typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
+    kCFRunLoopEntry         = (1UL << 0), // 即将进入Loop
+    kCFRunLoopBeforeTimers  = (1UL << 1), // 即将处理 Timer
+    kCFRunLoopBeforeSources = (1UL << 2), // 即将处理 Source
+    kCFRunLoopBeforeWaiting = (1UL << 5), // 即将进入休眠
+    kCFRunLoopAfterWaiting  = (1UL << 6), // 刚从休眠中唤醒
+    kCFRunLoopExit          = (1UL << 7), // 即将退出Loop
+};
+
+上面的 Source/Timer/Observer 被统称为 mode item，一个 item 可以被同时加入多个 mode。
+但一个 item 被重复加入同一个 mode 时是不会有效果的。
+如果一个 mode 中一个 item 都没有，则 RunLoop 会直接退出，不进入循环。
+
