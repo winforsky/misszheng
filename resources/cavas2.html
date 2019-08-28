@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas Document</title>
+    <style>
+        body {
+            background: url("./edu8-1.jpg") repeat;
+        }
+
+        #canvas {
+            border: 1px solid #aaaaaa;
+            display: block;
+            margin: 50px auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-wrap">
+        <canvas id="canvas"
+        style="border: 1px solid #aaaaaa; display:block;margin:50px auto;">
+            你的浏览器不支持canvas？！赶紧换一个吧！！！
+        </canvas>
+    </div>
+    <script>
+        var canvas;
+        var context; 
+        var balls = [];
+
+        window.onload = function() {
+            canvas = document.getElementById("canvas");//获取画布
+            canvas.width = 800;//代码设置画布的宽
+            canvas.height = 600;//代码设置画布的高
+
+            context = canvas.getContext("2d");//从画布中获取绘画的上下文环境
+            context.fillStyle = "#FFF";
+            context.fillRect(0,0,800,600);
+
+            drawWallAndAction(context, canvas);
+            // drawCxtArc(context);
+            // drawCxtImage(context);
+            // drawClip(context);
+            // drawGlobalAlpha(context);
+            // drawMeasureText(context);
+            // drawTextVerAlign(context);
+            // drawFillStokeText(context);
+            // drawText(context);
+            // drawSetTransform(context);
+            // drawTransform(context);
+            // drawScale(context);
+            // drawRotate2(context);
+            // drawTranslate(context);
+            // drawWallPaper(context);
+            // drawArcTo(context, 200, 200, 600, 200, 600, 400, 100);
+            // draw2048(context);
+            // drawArcRect(context, 100, 100, 400, 400, 50, "red", 5, "blue");
+        }
+
+        function drawWallAndAction(cxt, canvas) {
+            for(var i=0;i<50;i++){
+                var aBall = {
+                    x:Math.random() * 800,
+                    y:Math.random() * 600,
+                    r:Math.random() * 5 + 20,
+                };
+                balls[i]=aBall;
+            }
+
+            drawBall(cxt);
+
+            canvas.addEventListener("mousemove", detect);
+        }
+
+        function drawBall(cxt) {
+            for(var i=0;i<balls.length;i++){
+                var r = Math.floor(Math.random() * 255);
+                var g = Math.floor(Math.random() * 255);
+                var b = Math.floor(Math.random() * 255);
+
+                cxt.beginPath()
+                cxt.globalAlpha=0.5;
+                cxt.fillStyle = "rgb("+r+","+g+","+b+")";
+                cxt.arc(balls[i].x, balls[i].y, balls[i].r, 0, Math.PI * 2);
+                cxt.fill();
+            }
+        }
+
+        function detect() {
+            //计算鼠标的位置，相对于canvas的位置
+            var x = event.clientX -  canvas.getBoundingClientRect().left;
+            var y = event.clientY -  canvas.getBoundingClientRect().top;
+
+            for(var i = 0; i< balls.length; i++){
+                context.beginPath();
+                context.arc(balls[i].x, balls[i].y, balls[i].r, 0, Math.PI * 2);
+
+                if(context.isPointInPath(x, y)){
+                    context.fillStyle = "rgb(255, 255, 255, 0.1)";
+                    context.fill();
+                }
+            }
+        }
+
+        function drawCxtArc(cxt) {
+            cxt.save();
+
+            cxt.shadowColor="#bbb";
+            cxt.shadowOffsetX=5;
+            cxt.shadowOffsetY=5;
+            cxt.shadowBlur=2;
+
+            cxt.arc(400,300,200,0,Math.PI * 2, false);
+            cxt.arc(400,300,230,0,Math.PI * 2, true);
+            cxt.fillStyle="#00aabb";
+            cxt.fill();
+
+            cxt.restore();//恢复历史状态
+        }
+
+        function drawCxtImage(cxt) {
+
+            cxt.beginPath();
+            //构建心形相框
+            cxt.moveTo(400,260);
+            cxt.bezierCurveTo(450,220,450,300,400,315);
+            cxt.bezierCurveTo(350,300,350,220,400,260);
+            // 只绘制该路径内所包含区域的图像，实现遮照效果
+            cxt.clip();
+            cxt.closePath();
+
+            var img = new Image();
+            img.src="edu8-1.jpg";
+            img.onload=function(){//图片有一个加载过程                
+                cxt.drawImage(img, 348, 240, 100, 100);
+            }  
+        }
+
+        function drawClip(cxt) {
+            cxt.save();
+
+            //在屏幕上绘制一个大方块
+            cxt.fillStyle="blue";
+            cxt.fillRect(10,10,400,300);
+
+            cxt.save();
+            cxt.beginPath();
+            //裁剪画布从(0，0)点至(50，50)的正方形
+            cxt.rect(0,0,50,50);
+            // 只绘制该路径内所包含区域的图像
+            cxt.clip();
+            cxt.beginPath();
+            cxt.strokeStyle="red";
+            cxt.lineWidth=5;            
+            //红色圆
+            cxt.arc(100,100,100,0,Math.PI*2, false)
+            //整圆
+            cxt.stroke();
+            cxt.closePath();
+            cxt.restore();
+
+            //再次裁切整个画布
+            cxt.beginPath();
+            //裁剪画布从(0，0)点至(500，500)的正方形
+            cxt.rect(0,0,500,500);
+            // 只绘制该路径内所包含区域的图像
+            cxt.clip();
+             //绘制一个没有裁切的蓝线
+            cxt.beginPath();
+            cxt.strokeStyle="orange";
+            cxt.lineWidth=5;            
+            //红色圆
+            cxt.arc(100,100,50,0,Math.PI*2, false)
+            //整圆
+            cxt.stroke();
+            cxt.closePath();
+
+            cxt.restore();//恢复历史状态
+        }
+
+        function drawGlobalAlpha(cxt) {
+            cxt.save();
+            //居中显示
+            cxt.globalAlpha = 0.5;            
+            // cxt.globalCompositeOperation = "source-atop";
+
+            for(var i=0; i<10; i++) {
+                var r = Math.floor(Math.random() * 255);
+                var g = Math.floor(Math.random() * 255);
+                var b = Math.floor(Math.random() * 255);
+
+                cxt.beginPath()
+                cxt.fillStyle = "rgb("+r+","+g+","+b+")";
+                cxt.arc(Math.random()*800, Math.random()*600, Math.random() * 100, 0, Math.PI * 2);
+                cxt.fill();
+            }
+            
+
+            cxt.restore();//恢复历史状态
+        }
+
+        function drawMeasureText(cxt) {
+            cxt.save();
+            //居中显示
+            cxt.textAlign = "center";
+            cxt.textBaseline = "middle";
+
+            cxt.fillStyle = "#00AAAA";
+            cxt.font="30px Arial";
+            var txt="Hello Canvas";
+            cxt.fillText("width:" + cxt.measureText(txt).width,400,300);
+            cxt.fillText(txt,400,250);
+
+            cxt.restore();//恢复历史状态
+        }
+
+        function drawTextVerAlign(cxt) {
+            cxt.save();
+
+            cxt.font = "50px serif";
+            cxt.fillStyle = "#CCC";
+            cxt.textBaseline="top";
+            cxt.fillText("top", 180, 300);
+
+            cxt.textBaseline="bottom";
+            cxt.fillText("bottom", 370, 300);
+
+            cxt.textBaseline="middle";
+            cxt.fillText("middle", 250, 300);
+
+            cxt.textBaseline="alphabetic";
+            cxt.fillText("alphabetic", 20, 300);
+
+            cxt.textBaseline="hanging";
+            cxt.fillText("hanging", 400, 300);
+
+            cxt.restore();//恢复历史状态
+        }
+
+        function drawFillStokeText(cxt) {
+            cxt.save();
+
+            cxt.font = "50px serif";
+            cxt.fillStyle = "#CCC";
+            cxt.fillText("This is fill text", 50, 300);
+
+            cxt.strokeStyle = "#ccc";
+            cxt.strokeText("This is fill text", 50, 400);
+
+            cxt.restore();//恢复历史状态
+        }
+
+        function drawText(cxt) {
+            cxt.save();
+
+            cxt.font = "50px serif";
+            cxt.fillStyle = "#CCC";
+            cxt.fillText("This is fill text", 50, 300);
+
+            cxt.restore();//恢复历史状态
+        }
+
+        function drawSetTransform(cxt) {
+            cxt.save();
+
+            cxt.strokeStyle = "rgba(255,0,0,0.25)";
+            cxt.fillStyle = "yellow";
+            cxt.lineWidth = 5;
+
+            cxt.fillRect(0, 0, 200, 200);
+            cxt.strokeRect(0, 0, 200, 200);
+
+            cxt.fillStyle = "red";
+
+//平移至(300,200)
+            // cxt.setTransform(1,0,0,1,300,200);
+//水平方向放大2倍，垂直方向放大1.5倍
+            // cxt.setTransform(2,0,0,1.5,0,0);
+//水平方向向右倾斜宽度10%的距离，垂直方向向上倾斜高度10%的距离
+            cxt.setTransform(1,-0.1,0.1,1,0,0);
+
+            cxt.fillRect(0, 0, 200, 200);
+            cxt.strokeRect(0, 0, 200, 200);
+
+            cxt.restore();//恢复历史状态
+        }
+
+        function drawTransform(cxt) {
+            cxt.save();
+
+            cxt.strokeStyle = "rgba(255,0,0,0.25)";
+            cxt.fillStyle = "yellow";
+            cxt.lineWidth = 5;
+
+//平移至(300,200)
+            cxt.transform(1,0,0,1,300,200);
+//水平方向放大2倍，垂直方向放大1.5倍
+            cxt.transform(2,0,0,1.5,0,0);
+//水平方向向右倾斜宽度10%的距离，垂直方向向上倾斜高度10%的距离
+            cxt.transform(1,-0.1,0.1,1,0,0);
+
+            cxt.fillRect(0, 0, 200, 200);
+            cxt.strokeRect(0, 0, 200, 200);
+
+            cxt.restore();//恢复历史状态
+        }
+
+        function drawScale(cxt) {
+            for(var i=1; i<=5; i++){
+                cxt.save();
+                cxt.scale(i,i);
+                cxt.strokeStyle = "rgba(255,0,0,0.25)";
+                cxt.strokeRect(50, 50, 150, 100);
+                cxt.restore();
+            }
+        }
+
+        function drawRotate2(cxt) {
+            for(var i=1; i<=10; i++){
+                cxt.save();
+                cxt.translate(400,300);
+                cxt.rotate(36 * i * Math.PI / 180);
+                cxt.fillStyle = "rgba(255,0,0,0.25)";
+                cxt.fillRect(0, -200, 200, 200);
+                cxt.restore();
+            }
+        }
+
+        function drawRotate(cxt) {
+            for(var i=0;i<=12; i++) {
+                cxt.save();//保存历史状态，完成本次绘画时再恢复
+                cxt.fillStyle="#00AAAA";
+                cxt.translate(70+ i*50, 50+ i*40);
+                cxt.fillRect(0,0,20,20);
+                cxt.restore();//恢复历史状态
+
+                cxt.save();//保存历史状态，完成本次绘画时再恢复
+                cxt.fillStyle="#666666";
+                cxt.translate(70+ i*50, 50+ i*40);
+                cxt.rotate(i * 30 * Math.PI/180);
+                cxt.fillRect(0,0,20,20);
+                cxt.restore();//恢复历史状态
+            }
+        }
+
+        function drawTranslate(cxt) {
+            cxt.fillStyle="#00AAAA";
+            cxt.fillRect(100,100,200,100);
+
+            cxt.fillStyle="#BBBBBB";
+            cxt.translate(100,100);
+            cxt.fillRect(100,100,200,100);
+        }
+
+        function drawWallPaper(cxt) {
+            drawWallPaperPrairie(cxt)
+            drawWallPaperSky(cxt);
+            for(var i=0;i<5;i++){
+                var x = 500 * Math.random() + 50;
+                var y = 200 * Math.random() + 50;
+                var z = 100 * Math.random() + 50;
+                drawWallPaperCloud(cxt, x, y, z);
+            }
+            
+        }
+
+        function drawWallPaperSky(cxt) {
+            cxt.save();//保存历史状态，完成本次绘画时再恢复
+
+            cxt.beginPath();
+            cxt.moveTo(0,420);
+            cxt.bezierCurveTo(250,300,350,550,800,400);
+            cxt.lineTo(800,0);
+            cxt.lineTo(0,0);
+            cxt.closePath();
+
+            var lineStyle = cxt.createRadialGradient(400,0,50,400,0,200);
+            lineStyle.addColorStop(0,"#42A9AA");
+            lineStyle.addColorStop(1,"#2491AA");
+            cxt.fillStyle=lineStyle;
+            cxt.fill()
+
+            cxt.restore();//恢复历史状态
+        }
+
+        function drawWallPaperPrairie(cxt) {
+            cxt.save();//保存历史状态，完成本次绘画时再恢复
+
+            cxt.beginPath();
+            cxt.moveTo(0,420);
+            cxt.bezierCurveTo(250,300,350,550,800,400);
+            cxt.lineTo(800,600);
+            cxt.lineTo(0,600);
+            cxt.closePath();
+
+            var lineStyle = cxt.createLinearGradient(0,600,600,0);
+            lineStyle .addColorStop(0, "#00AA58");
+            lineStyle .addColorStop(0.3, "#63AA7B");
+            lineStyle .addColorStop(1, "#04AA00");
+            cxt.fillStyle=lineStyle;
+            cxt.fill()
+
+            cxt.restore();//恢复历史状态
+        }
+
+        /*渲染单个云朵
+        context:  canvas.getContext("2d")对象
+        cx: 云朵X轴位置
+        cy: 云朵Y轴位置
+        cw: 云朵宽度
+        */
+        function drawWallPaperCloud(cxt, cx, cy, cw) {
+            cxt.save();//保存历史状态，完成本次绘画时再恢复
+
+            var maxWidth=800;
+            cx=cx%maxWidth;
+            var ch=cw*0.6;
+
+
+            cxt.beginPath();
+            cxt.arc(cx, cy, cw*0.19, 0, 360, false);
+            cxt.arc(cx+ cw * 0.08, cy- ch * 0.3, cw*0.11, 0, 360, false);
+            cxt.arc(cx+ cw * 0.3, cy- ch * 0.25, cw*0.25, 0, 360, false);
+            cxt.arc(cx+ cw * 0.6, cy- ch * 0.21, cw*0.21, 0, 360, false);
+            cxt.arc(cx+ cw * 0.3, cy- ch * 0.1, cw*0.28, 0, 360, false);
+            cxt.closePath();
+
+            cxt.fillStyle="white";
+
+            var lineStyle = cxt.createLinearGradient(0,0,0,cy);
+            lineStyle.addColorStop(0, 'rgba(255,255,255,0.8)');
+            lineStyle.addColorStop(1, 'rgba(255,255,255,0.5)');
+            cxt.fillStyle=lineStyle;
+
+            cxt.fill()
+
+            cxt.restore();//恢复历史状态
+        }
+
+        function draw2048(cxt) {
+            drawArcRect(cxt, 200, 100, 400, 400, 5, "#AA7B41", 1,"#0078AA");
+
+            for(var i = 1; i<=4; i++) {
+                for(var j=1; j<=4; j++){
+                    drawArcRect(cxt, 200+16*i+80*(i-1), 100+16*j+80*(j-1), 80, 80, 5, "#CCBFB4", 1,"#0078AA");
+                }
+            }
+        }
+
+        function drawArcTo(cxt, x0, y0, x1, y1, x2, y2, r) {
+            cxt.beginPath();//开始绘制
+
+            cxt.moveTo(x0, y0);
+            cxt.arcTo(x1, y1, x2, y2, r);
+            cxt.lineWidth = 6;//设置线宽
+            cxt.strokeStyle = "red";//设置填充颜色
+            cxt.stroke();//确定描边
+
+            cxt.beginPath();//开始绘制
+
+            cxt.moveTo(x0, y0);
+            cxt.lineTo(x1, y1);
+            cxt.lineTo(x2, y2);
+            cxt.lineWidth = 1;//设置线宽
+            cxt.strokeStyle = "#0088AA";//设置填充颜色
+            cxt.stroke();//确定描边
+        }
+
+        function drawArcRect(cxt, x, y, width, height, radius, fillColor, borderwidth, borderColor) {
+            cxt.beginPath();//开始绘制
+            cxt.arc(x+radius, y+radius, radius, Math.PI, Math.PI * 3/2);//设置圆弧
+            cxt.lineTo(x+width-radius, y);//设置终点位置
+            cxt.arc(x+width-radius, y+radius, radius, Math.PI* 3/2, Math.PI * 2);//设置圆弧
+            cxt.lineTo(x+width, y+height-radius);//设置终点位置
+            cxt.arc(x+width-radius, y+height-radius, radius, Math.PI * 0, Math.PI * 1/2);//设置圆弧
+            cxt.lineTo(x+radius, y+height);//设置终点位置
+            cxt.arc(x+radius, y+height-radius, radius, Math.PI * 1/2, Math.PI);//设置圆弧
+            cxt.closePath();//设置闭合
+            cxt.lineWidth = borderwidth;//设置线宽
+            cxt.strokeStyle = borderColor;//设置瞄边颜色
+            cxt.fillStyle = fillColor;//设置填充颜色
+            cxt.stroke();//确定描边
+            cxt.fill();//确定填充
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas Document</title>
+</head>
+<body>
+    hello, canvas
+    <div id="canvas-wrap">
+        <canvas id="canvas"
+        style="border: 1px solid #aaaaaa; display:block;margin:50px auto;">
+         你的浏览器不支持canvas？！赶紧换一个吧！！！
+     </canvas>
+    </div>
+    
+    <script>
+        window.onload = function() {
+            var canvas = document.getElementById("canvas");//获取画布
+            canvas.width = 800;//代码设置画布的宽
+            canvas.height = 600;//代码设置画布的高
+
+            var context = canvas.getContext("2d");//从画布中获取绘画的上下文环境
+
+            drawRect(context, 150, 50, 50, 50, "red", 5, "blue");
+            drawRect(context, 250, 50, 50, 50, "red", 5, "blue");
+            drawRect(context, 350, 50, 50, 50, "red", 5, "blue");
+
+            drawRect2(context);
+
+            // drawRect3(context);
+
+            drawRect4(context);
+        }
+
+        function firstCode(){
+            var canvas = document.getElementById("canvas");//获取画布
+            canvas.width = 800;//代码设置画布的宽
+            canvas.height = 600;//代码设置画布的高
+
+            var context = canvas.getContext("2d");//从画布中获取绘画的上下文环境
+
+            context.beginPath();//开始绘制
+            context.moveTo(100, 100);//设置起点位置
+            context.lineTo(600, 600);//设置终点位置
+            context.lineTo(600, 100);//设置终点位置
+            context.lineWidth = 5;//设置线宽
+            context.strokeStyle = "#AA394C";//设置瞄边颜色
+            context.fillStyle = "#666666";//设置填充颜色
+            // context.stroke();//开始描边
+
+            // context.beginPath();//开始绘制
+            // context.moveTo(600, 100);//设置起点位置
+            // context.lineTo(100, 100);//设置终点位置 
+            // context.lineWidth = 5;//设置线宽       
+            // context.strokeStyle = "blue";//设置瞄边颜色
+            context.closePath();//设置闭合
+            context.stroke();//确定描边
+            context.fill();//确定填充
+        }
+
+        function drawRect(cxt, x, y, width, height, fillColor, borderwidth, borderColor) {
+            cxt.beginPath();//开始绘制
+            cxt.moveTo(x, y);//设置起点位置
+            cxt.lineTo(x+width, y);//设置终点位置
+            cxt.lineTo(x+width, y+height);//设置终点位置
+            cxt.lineTo(x, y+height);//设置终点位置
+            cxt.lineTo(x, y);//设置终点位置
+            cxt.closePath();//设置闭合
+            cxt.lineWidth = borderwidth;//设置线宽
+            cxt.strokeStyle = borderColor;//设置瞄边颜色
+            cxt.fillStyle = fillColor;//设置填充颜色
+            cxt.stroke();//确定描边
+            cxt.fill();//确定填充
+        }
+
+        function drawRect2(cxt){
+            cxt.beginPath()
+            cxt.rect(50,150,400,400);
+            cxt.lineWidth = 5;//设置线宽
+            cxt.strokeStyle = "#888888";//设置瞄边颜色
+
+            //添加渐变线
+            var grd = cxt.createLinearGradient(50,350,450,350);
+
+            //添加颜色断点
+            grd.addColorStop(0,"black");
+            grd.addColorStop(0.5,"white");
+            grd.addColorStop(1,"black");
+
+            //应用渐变
+            cxt.fillStyle = grd;
+
+            cxt.stroke();//确定描边
+            cxt.fill();//确定填充
+        }
+
+        function drawRect3(cxt) {
+            cxt.beginPath()
+            //添加渐变线
+            var grd = cxt.createRadialGradient(400,300,100,400,300,200);
+
+            //添加颜色断点
+            grd.addColorStop(0,"olive");
+            // grd.addColorStop(0.25,"maroon");
+            // grd.addColorStop(0.5,"aqua");
+            // grd.addColorStop(0.75,"fuchsia");
+            grd.addColorStop(1,"teal");
+
+            //应用渐变
+            cxt.fillStyle = grd;
+            cxt.fillRect(100, 100, 600, 400);//确定填充
+        }
+
+        function drawRect4(cxt) {
+            cxt.beginPath();//开始绘制 
+            var img = new Image();
+            img.src="edu8-1.jpg";
+            img.onload=function(){//图片有一个加载过程
+                //创建填充纹理
+                var pattern = cxt.createPattern(img, "repeat");
+
+                //应用填充纹理
+                cxt.fillStyle = pattern;
+                cxt.fillRect(100, 100, 600, 400);//确定填充
+            }            
+        }
+
+    </script>
+</body>
+</html>
