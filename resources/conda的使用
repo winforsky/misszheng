@@ -1,0 +1,94 @@
+conda的基础使用
+
+https://docs.conda.io/projects/conda/en/latest/user-guide/overview.html
+
+## conda是什么
+* Query and search the Anaconda package index and current Anaconda installation.
+* Create new conda environments.
+* Install and update packages into existing conda environments.
+
+### 命令行的参数说明
+> `--optionDetail optionValue` 详细参数名 对应的参数值
+or 
+> `-optionBrief optionValue` 详细参数名的简写 对应的参数值
+
+## 础使用方法
+### 环境相关
+conda 支持多环境下使用不同版本的package
+
+* 查看当前的环境
+`conda info --envs` 或者 `conda env list`
+
+* 创建环境
+`conda create --name snowflakes`
+
+* 激活环境
+`conda activate snowflakes`
+
+* 搜索
+`conda search scipy`
+
+* 安装
+`conda install scipy`
+
+* 构建package
+```
+//第一次构建需要先安装conda build
+conda install conda-build
+conda build xx_package //构建package
+```
+
+* 安装时可以指定安装包来源，默认使用来源https://repo.anaconda.com/pkgs/
+`conda install xxx --channel conda-forge` 
+
+* 更新
+```
+conda update conda
+conda update conda-build
+```
+
+* 查看当前环境下已经安装的包
+`conda list`
+
+
+## python 相关资料
+
+**有效学习的方法** 
+### 刻意练习：有计划的螺旋上升
+> 1、做每一道习题
+> 2、一字不差地写出每一个程序
+> 3、让程序运行起来
+作为编程新手所需的三种最重要的技能：读和写、注重细节、发现不同。
+
+### 使用视频的最佳方式
+首先尝试不使用它们完成练习，然后通过视频回顾所学，或者是在你被问题卡住的时候使用视频。
+
+这将慢慢使你通过视频来学习编程和构建你直接理解代码的技能。
+
+坚持下去,慢慢的你将不需要书中视频或任何学习编程的视频。
+
+你可以只看你所需要的信息。
+
+要学好一样东西，重复的练习是必不可少的。
+每天至少练习2个小时，至少花一个小时练习音阶、和声、和琶音，
+剩下的时间用来学习音乐理论和歌曲演奏以及训练听力等。
+
+### 拆分&练习
+如果你把问题分解成小的练习课，并且每天完成他们，你就可以做任何事情了。
+如果你把精力集中在慢慢改进，享受学习的过程，那么你一定会受益，不管你之前有多么擅长它。
+
+### 坚持
+不管是什么原因，你一定要坚持下去。
+如果你碰到做不出来的加分习题，或者碰到一节看不懂的习题，你可以暂时跳过去，过一阵子回来再看。
+只要坚持下去，你总会弄懂的。一开始你可能什么都看不懂。这会让你感觉很不舒服，就像学习人类的自然语言一样。
+你会发现很难记住一些单词和特殊符号的用法，而且会经常感到很迷茫，直到有一天，忽然一下子你会觉得豁然开朗，以前不明白的东西忽然就明白了。
+如果你坚持练习下去，坚持探索他们，你最终会学会这些东西的。
+也许你不会成为一个编程大师，但你至少会明白程序是怎么工作的。
+
+* [程序设计思想与方法](https://legacy.gitbook.com/book/wizardforcel/sjtu-cs902-courseware/details)
+* [Python 教程](https://docs.python.org/zh-cn/3/tutorial/)
+* [笨办法学 python](https://wizardforcel.gitbooks.io/lpthw/content/)
+* []()
+* []()
+* []()
+* []()
